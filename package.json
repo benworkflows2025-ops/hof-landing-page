@@ -1,0 +1,13 @@
+{
+  "name": "hof-secure-delivery",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Hearts On Fire Network — secure stamped PDF delivery (Netlify Functions + Supabase)",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.4",
+    "pdf-lib": "^1.17.1"
+  }
+}

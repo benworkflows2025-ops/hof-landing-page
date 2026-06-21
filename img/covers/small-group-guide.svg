@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 560" width="400" height="560" role="img" aria-label="Small Group Discussion Guide — Hearts On Fire Network">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0.3" y2="1">
+      <stop offset="0" stop-color="#0f6b62"/>
+      <stop offset="1" stop-color="#0a463f"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="560" fill="url(#bg)"/>
+  <rect x="18" y="18" width="364" height="524" fill="none" stroke="#e0a91d" stroke-opacity="0.4" stroke-width="1.5"/>
+  <text x="200" y="128" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="14" letter-spacing="5" font-weight="bold" fill="#fde290">GUIDE</text>
+  <text x="200" y="238" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="40" font-weight="bold" fill="#ffffff">
+    <tspan x="200" dy="0">Small Group</tspan>
+    <tspan x="200" dy="48">Discussion</tspan>
+    <tspan x="200" dy="48">Guide</tspan>
+  </text>
+  <rect x="160" y="396" width="80" height="3" rx="1.5" fill="#e0a91d"/>
+  <text x="200" y="436" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="12.5" letter-spacing="1" fill="#bfe4dd">With Leader Facilitation Guide</text>
+  <text x="200" y="516" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="12.5" letter-spacing="3" fill="#f3e8cf">HEARTS ON FIRE NETWORK</text>
+</svg>

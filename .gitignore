@@ -1,0 +1,20 @@
+# ===== Build output (Netlify rebuilds these) =====
+dist/
+node_modules/
+package-lock.json
+
+# ===== KEEP THESE OFF GITHUB — stay on your computer only =====
+# Some of these contain PRIVATE API keys (Stripe live key, GoHighLevel key,
+# Supabase service key). They are NOT needed to run the website.
+n8n/
+pdfs/
+emails/
+assets/
+hof-chat-workflow.json
+*.md
+*.pdf
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+.vscode/

@@ -1,0 +1,13 @@
+# Netlify config — Hearts On Fire Network (full site + secure delivery)
+
+[build]
+  command = "node build-dist.mjs"   # assembles dist/ from pages/ + img/
+  publish = "dist"
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+
+# Pages live at the dist root, so Netlify serves clean URLs automatically:
+#   /resources -> resources.html   /download -> download.html   404.html = not-found
+# The functions are reached at /.netlify/functions/<name>. No redirects needed.

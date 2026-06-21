@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Secure download page · route: https://heartsonfiretv.com/download?token=XXXX -->
+<!-- Reads ?token, asks serve-download to validate, then offers the file. -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,500&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+html, body { margin:0 !important; padding:0 !important; width:100% !important; max-width:100% !important; min-height:100% !important; }
+.hl_page-creator--content, .hl_page-creator--content > div, .hl-builder, .c-section, .c-wrapper, .c-row, .c-column, .fullSection, .fullSectionWrap, .section, .row-fluid, .full-width-row, .container, .container-fluid, .row, .col, [class*="col-"] { margin-left:0 !important; margin-right:0 !important; padding-left:0 !important; padding-right:0 !important; max-width:100% !important; width:100% !important; }
+.hof-root { position:relative; width:100vw; min-height:100vh; left:50%; right:50%; margin-left:-50vw !important; margin-right:-50vw !important; max-width:100vw !important; }
+body { font-family:'DM Sans', system-ui, sans-serif; background:#fdf8ef; color:#1a1410; line-height:1.6; }
+.hof-root { --cream-50:#fefcf6; --cream-100:#fdf8ef; --rose-300:#bfe4dd; --rose-500:#0d5b54; --rose-600:#0a463f; --rose-rgb:13,91,84; --gold:#e0a91d; --ink-500:#5a4a3e; --ink-600:#3d3027; --ink-800:#1a1410; font-family:'DM Sans',system-ui,sans-serif; }
+.hof-root *, .hof-root *::before, .hof-root *::after { box-sizing:border-box; }
+.hof-dl { min-height:100vh; min-height:100dvh; display:flex; align-items:center; justify-content:center; padding:24px;
+  background: radial-gradient(ellipse 70% 55% at 50% 42%, rgba(26,132,120,.16) 0%, rgba(250,247,242,0) 60%), linear-gradient(180deg,#fefcf6 0%,#fdf8ef 100%); }
+.hof-dl__card { width:100%; max-width:460px; background:#fff; border:1px solid var(--rose-300); border-radius:18px; padding:40px 32px 34px; text-align:center; box-shadow:0 20px 50px -24px rgba(var(--rose-rgb),.4); }
+.hof-dl__brand { font-family:'Playfair Display',Georgia,serif; font-size:22px; font-weight:700; color:var(--ink-800); margin:0; }
+.hof-dl__brand-sub { font-size:10px; letter-spacing:4px; text-transform:uppercase; color:var(--rose-500); font-weight:700; margin:3px 0 0; }
+.hof-dl__rule { width:54px; height:3px; border-radius:2px; background:var(--gold); margin:20px auto 24px; }
+.hof-dl__title { font-family:'Playfair Display',Georgia,serif; font-size:26px; font-weight:700; color:var(--ink-800); margin:0 0 10px; line-height:1.2; }
+.hof-dl__product { font-size:15px; color:var(--rose-500); font-weight:600; margin:0 0 6px; }
+.hof-dl__msg { font-size:15px; color:var(--ink-500); line-height:1.6; margin:0 0 24px; }
+.hof-dl__btn { display:inline-block; background:var(--rose-500); color:var(--cream-50); font-weight:700; font-size:15px; text-decoration:none; padding:15px 34px; border-radius:9999px; box-shadow:0 12px 26px -10px rgba(var(--rose-rgb),.5); }
+.hof-dl__btn:hover { background:var(--rose-600); }
+.hof-dl__note { font-size:12px; color:#9a8a7c; margin:16px 0 0; }
+.hof-dl__support { font-size:13px; color:var(--ink-500); margin:18px 0 0; }
+.hof-dl__support a { color:var(--rose-500); font-weight:600; text-decoration:none; }
+.hof-dl__spin { width:34px; height:34px; margin:6px auto 22px; border:3px solid rgba(var(--rose-rgb),.2); border-top-color:var(--rose-500); border-radius:50%; animation:hof-spin .8s linear infinite; }
+@keyframes hof-spin { to { transform:rotate(360deg); } }
+.hidden { display:none !important; }
+</style>
+</head>
+<body>
+<div class="hof-root">
+  <main class="hof-dl">
+    <div class="hof-dl__card">
+      <p class="hof-dl__brand">Hearts On Fire</p>
+      <p class="hof-dl__brand-sub">Network</p>
+      <div class="hof-dl__rule"></div>
+
+      <!-- LOADING -->
+      <div id="state-loading">
+        <div class="hof-dl__spin"></div>
+        <p class="hof-dl__msg">Preparing your download&hellip;</p>
+      </div>
+
+      <!-- READY -->
+      <div id="state-ready" class="hidden">
+        <h1 class="hof-dl__title">Your download is ready!</h1>
+        <p class="hof-dl__product" id="dl-product"></p>
+        <p class="hof-dl__msg">Click below to save your copy. This link is personal to you.</p>
+        <a id="dl-button" class="hof-dl__btn" href="#">Download now &darr;</a>
+        <p class="hof-dl__note" id="dl-note"></p>
+      </div>
+
+      <!-- ERROR -->
+      <div id="state-error" class="hidden">
+        <h1 class="hof-dl__title">Hmm, we hit a snag</h1>
+        <p class="hof-dl__msg" id="dl-error"></p>
+        <p class="hof-dl__support">Need help? Email <a href="mailto:support@heartsonfiretv.com">support@heartsonfiretv.com</a></p>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+(function () {
+  // If the functions live on a different host than this page, set the full base
+  // here, e.g. "https://hof-delivery.netlify.app/.netlify/functions"
+  var FN_BASE = "/.netlify/functions";
+
+  var params = new URLSearchParams(location.search);
+  var token = params.get("token");
+
+  var elLoading = document.getElementById("state-loading");
+  var elReady = document.getElementById("state-ready");
+  var elError = document.getElementById("state-error");
+
+  function show(el) { [elLoading, elReady, elError].forEach(function (n) { n.classList.add("hidden"); }); el.classList.remove("hidden"); }
+  function fail(msg) { document.getElementById("dl-error").textContent = msg; show(elError); }
+
+  var REASONS = {
+    not_found: "This download link was not found. Please use the most recent link from your email.",
+    expired: "This download link has expired. Download links are valid for 48 hours.",
+    limit: "This link has reached its download limit (2 downloads)."
+  };
+
+  if (!token) { fail("This download link is missing its token."); return; }
+
+  fetch(FN_BASE + "/serve-download?check=1&token=" + encodeURIComponent(token))
+    .then(function (r) { return r.json(); })
+    .then(function (data) {
+      if (data && data.valid) {
+        document.getElementById("dl-product").textContent = data.product_title || "";
+        document.getElementById("dl-button").href = FN_BASE + "/serve-download?token=" + encodeURIComponent(token);
+        if (typeof data.downloads_left === "number") {
+          document.getElementById("dl-note").textContent = data.downloads_left + " download" + (data.downloads_left === 1 ? "" : "s") + " remaining.";
+        }
+        show(elReady);
+      } else {
+        fail((data && REASONS[data.reason]) || "This download link is not valid. Please contact support.");
+      }
+    })
+    .catch(function () { fail("We couldn't reach the download service. Please try again in a moment."); });
+})();
+</script>
+</body>
+</html>

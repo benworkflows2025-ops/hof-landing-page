@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Thank-you / order confirmation page · URL slug: /thank-you -->
+<!-- GHL setup: this is the success_url Stripe redirects to after payment. -->
+<!-- Make a funnel page at /thank-you, paste this in, then set THANK_YOU_URL -->
+<!-- in the checkout script on resources/courses/ministry-training to this slug. -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,700;1,900&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+html, body { margin: 0 !important; padding: 0 !important; width: 100% !important; max-width: 100% !important; min-height: 100% !important; }
+.hl_page-creator--content, .hl_page-creator--content > div, .hl-builder, .hl-builder > div, .c-section, .c-wrapper, .c-row, .c-column, .fullSection, .fullSectionWrap, .section, .row-fluid, .full-width-row, .container, .container-fluid, .row, .col, .col-12, .col-md-12, .col-lg-12, .col-sm-12, .col-xs-12, [class*="col-"] { margin-left: 0 !important; margin-right: 0 !important; padding-left: 0 !important; padding-right: 0 !important; max-width: 100% !important; width: 100% !important; }
+.hl_page-creator--content, .c-section, .c-wrapper, .fullSection { display: block !important; float: none !important; }
+.hof-root { position: relative; width: 100vw; min-height: 100vh; left: 50%; right: 50%; margin-left: -50vw !important; margin-right: -50vw !important; max-width: 100vw !important; }
+body { font-family: 'DM Sans', system-ui, sans-serif; background: #fdf8ef; color: #1a1410; line-height: 1.6; }
+.hof-root { --cream-50:#fefcf6;--cream-100:#fdf8ef;--cream-200:#dbeeea;--rose-300:#bfe4dd;--rose-400:#80c4ba;--rose-500:#0d5b54;--rose-600:#0a463f;--rose-700:#06302b;--rose-rgb:13,91,84;--gold:#e0a91d;--ink-400:#7d6b5e;--ink-500:#5a4a3e;--ink-600:#3d3027;--ink-700:#2a201a;--ink-800:#1a1410;--ink-900:#0d0a07;font-family:'DM Sans',system-ui,sans-serif;color:var(--ink-800);line-height:1.6;-webkit-font-smoothing:antialiased;}
+.hof-root *, .hof-root *::before, .hof-root *::after { box-sizing: border-box; }
+.hof-root img, .hof-root svg { display: block; max-width: 100%; }
+.hof-root a { color: inherit; text-decoration: none; }
+.hof-root h1, .hof-root h2, .hof-root h3, .hof-root p { margin: 0; }
+.hof-root .hof-eyebrow { font-size: 11px; letter-spacing: .32em; text-transform: uppercase; font-weight: 600; }
+
+@keyframes hof-cat-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+.hof-root .hof-cat { animation: hof-cat-float 5s ease-in-out infinite; }
+@keyframes hof-tail-sway { 0%,100% { transform: rotate(0deg); } 50% { transform: rotate(8deg); } }
+.hof-root .hof-cat__tail { transform-origin: 205px 215px; animation: hof-tail-sway 3s ease-in-out infinite; }
+@keyframes hof-heart-bob { 0%,100% { transform: translateY(0); opacity: .65; } 50% { transform: translateY(-9px); opacity: 1; } }
+.hof-root .hof-cat__h1 { animation: hof-heart-bob 2.6s ease-in-out infinite; }
+.hof-root .hof-cat__h2 { animation: hof-heart-bob 3.1s ease-in-out infinite .4s; }
+.hof-root .hof-cat__h3 { animation: hof-heart-bob 2.3s ease-in-out infinite .8s; }
+@keyframes hof-fade-up { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+.hof-root .hof-fade { opacity: 0; animation: hof-fade-up .9s cubic-bezier(.16,1,.3,1) forwards; }
+.hof-root .hof-fade--d1 { animation-delay: .15s; }
+.hof-root .hof-fade--d2 { animation-delay: .3s; }
+.hof-root .hof-fade--d3 { animation-delay: .45s; }
+.hof-root .hof-fade--d4 { animation-delay: .6s; }
+.hof-root .hof-fade--d5 { animation-delay: .75s; }
+
+/* ===== THANK-YOU LAYOUT ===== */
+.hof-root .hof-ty {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 56px 24px 40px;
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 70% 55% at 50% 42%, rgba(26,132,120,.18) 0%, rgba(250,247,242,0) 60%),
+    linear-gradient(180deg, #fefcf6 0%, #fdf8ef 100%);
+}
+.hof-root .hof-ty__inner { max-width: 620px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; }
+
+/* Brand mark, top-left */
+.hof-root .hof-ty__brand { position: absolute; top: 24px; left: 24px; line-height: 1; }
+.hof-root .hof-ty__brand-name { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 16px; color: var(--ink-800); letter-spacing: -.01em; }
+.hof-root .hof-ty__brand-sub { display: block; margin-top: 3px; font-family: 'DM Sans', sans-serif; font-size: 9px; letter-spacing: .3em; text-transform: uppercase; color: var(--rose-500); font-weight: 600; }
+
+/* Cat */
+.hof-root .hof-ty__cat { width: clamp(200px, 34vh, 320px); height: auto; margin-bottom: clamp(12px, 2.5vh, 22px); }
+
+/* Confirmed pill */
+.hof-root .hof-ty__pill { display: inline-flex; align-items: center; gap: 7px; background: rgba(var(--rose-rgb),.10); color: var(--rose-500); border: 1px solid var(--rose-300); padding: 7px 16px; border-radius: 9999px; margin-bottom: 18px; }
+.hof-root .hof-ty__pill svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+
+.hof-root .hof-ty__title { font-family: 'Playfair Display', serif; font-weight: 700; color: var(--ink-900); font-size: clamp(30px, 5vh, 46px); line-height: 1.1; letter-spacing: -.02em; margin-bottom: 14px; }
+.hof-root .hof-ty__title em { font-style: italic; color: var(--rose-500); font-weight: 500; }
+.hof-root .hof-ty__sub { color: var(--ink-500); font-size: 16px; line-height: 1.65; max-width: 460px; margin: 0 auto 26px; }
+.hof-root .hof-ty__sub strong { color: var(--ink-700); font-weight: 600; }
+
+/* Next-steps card */
+.hof-root .hof-ty__card { width: 100%; max-width: 480px; background: #fff; border: 1px solid var(--rose-300); border-radius: 14px; padding: 22px 24px; margin: 0 auto 28px; text-align: left; box-shadow: 0 12px 30px -16px rgba(var(--rose-rgb),.30); }
+.hof-root .hof-ty__card-h { font-family: 'DM Sans', sans-serif; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; font-weight: 700; color: var(--rose-500); margin-bottom: 14px; }
+.hof-root .hof-ty__step { display: flex; gap: 12px; align-items: flex-start; padding: 9px 0; }
+.hof-root .hof-ty__step + .hof-ty__step { border-top: 1px solid var(--cream-200); }
+.hof-root .hof-ty__num { flex: 0 0 auto; width: 24px; height: 24px; border-radius: 9999px; background: var(--rose-500); color: var(--cream-50); font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+.hof-root .hof-ty__step p { font-size: 14px; line-height: 1.5; color: var(--ink-600); }
+.hof-root .hof-ty__step p b { color: var(--ink-800); font-weight: 600; }
+
+/* Order reference (only shows if session_id present) */
+.hof-root .hof-ty__order { font-size: 12px; color: var(--ink-400); margin: 0 0 22px; word-break: break-all; }
+.hof-root .hof-ty__order span { font-family: 'DM Sans', monospace; color: var(--ink-600); }
+
+/* Buttons */
+.hof-root .hof-ty__actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+.hof-root .hof-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-weight: 600; border-radius: 9999px; padding: 14px 32px; font-size: 15px; line-height: 1; cursor: pointer; transition: background .3s, color .3s, transform .3s, box-shadow .3s; white-space: nowrap; background: var(--rose-500); color: var(--cream-50); box-shadow: 0 10px 25px -8px rgba(var(--rose-rgb),.35); position: relative; overflow: hidden; isolation: isolate; }
+.hof-root .hof-btn:hover { background: var(--rose-600); transform: translateY(-1px); box-shadow: 0 14px 30px -8px rgba(var(--rose-rgb),.45); }
+.hof-root .hof-btn .hof-i { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.hof-root .hof-btn::after { content: ''; position: absolute; top: 0; left: -130%; width: 70%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,.45), transparent); transform: skewX(-22deg); transition: left .8s ease; z-index: -1; }
+.hof-root .hof-btn:hover::after { left: 130%; }
+.hof-root .hof-btn--ghost { background: transparent; color: var(--rose-500); border: 1px solid var(--rose-300); box-shadow: none; }
+.hof-root .hof-btn--ghost:hover { background: rgba(var(--rose-rgb),.06); color: var(--rose-600); }
+
+/* Support line */
+.hof-root .hof-ty__support { margin-top: 26px; font-size: 13px; color: var(--ink-400); }
+.hof-root .hof-ty__support a { color: var(--rose-500); font-weight: 600; }
+
+@media (max-height: 680px) {
+  .hof-root .hof-ty__cat { width: clamp(150px, 26vh, 220px); margin-bottom: 10px; }
+  .hof-root .hof-ty__card { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="hof-root">
+  <main class="hof-ty">
+
+    <a href="/" class="hof-ty__brand hof-fade" aria-label="Hearts On Fire Network — home">
+      <span class="hof-ty__brand-name">Hearts On Fire</span>
+      <span class="hof-ty__brand-sub">Network</span>
+    </a>
+
+    <div class="hof-ty__inner">
+
+      <!-- Happy / content cat — inline SVG (sibling of the 404 cat) -->
+      <svg class="hof-ty__cat hof-cat hof-fade" viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <linearGradient id="hof-tycat-fur" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#bfe4dd"/>
+            <stop offset="1" stop-color="#0d5b54"/>
+          </linearGradient>
+          <linearGradient id="hof-tycat-belly" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#e6f4f0"/>
+            <stop offset="1" stop-color="#bfe4dd"/>
+          </linearGradient>
+        </defs>
+
+        <!-- Floating hearts -->
+        <g class="hof-cat__h1"><path transform="translate(86 56) scale(1.7)" d="M0,2 C0,2 -6,-3 -6,-7 C-6,-10 -2,-10 0,-7 C2,-10 6,-10 6,-7 C6,-3 0,2 0,2 Z" fill="#e0a91d" opacity=".85"/></g>
+        <g class="hof-cat__h2"><path transform="translate(238 78) scale(1.3)" d="M0,2 C0,2 -6,-3 -6,-7 C-6,-10 -2,-10 0,-7 C2,-10 6,-10 6,-7 C6,-3 0,2 0,2 Z" fill="#80c4ba"/></g>
+        <g class="hof-cat__h3"><path transform="translate(54 112) scale(1.05)" d="M0,2 C0,2 -6,-3 -6,-7 C-6,-10 -2,-10 0,-7 C2,-10 6,-10 6,-7 C6,-3 0,2 0,2 Z" fill="#e0a91d" opacity=".7"/></g>
+
+        <!-- Tail (behind body) -->
+        <path class="hof-cat__tail" d="M205 220 Q 252 198 244 145" fill="none" stroke="#0a463f" stroke-width="11" stroke-linecap="round"/>
+
+        <!-- Body -->
+        <ellipse cx="160" cy="225" rx="66" ry="52" fill="url(#hof-tycat-fur)"/>
+        <!-- Belly -->
+        <ellipse cx="160" cy="240" rx="40" ry="30" fill="url(#hof-tycat-belly)" opacity=".75"/>
+
+        <!-- Front paws -->
+        <ellipse cx="135" cy="266" rx="17" ry="11" fill="#0a463f"/>
+        <ellipse cx="185" cy="266" rx="17" ry="11" fill="#0a463f"/>
+        <circle cx="129" cy="266" r="2" fill="#06302b"/>
+        <circle cx="135" cy="269" r="2" fill="#06302b"/>
+        <circle cx="141" cy="266" r="2" fill="#06302b"/>
+        <circle cx="179" cy="266" r="2" fill="#06302b"/>
+        <circle cx="185" cy="269" r="2" fill="#06302b"/>
+        <circle cx="191" cy="266" r="2" fill="#06302b"/>
+
+        <!-- Head -->
+        <circle cx="160" cy="158" r="58" fill="url(#hof-tycat-fur)"/>
+
+        <!-- Outer ears -->
+        <path d="M114 122 L 98 70 L 142 110 Z" fill="#0d5b54"/>
+        <path d="M206 122 L 222 70 L 178 110 Z" fill="#0d5b54"/>
+        <!-- Inner ears -->
+        <path d="M118 117 L 108 84 L 134 108 Z" fill="#e6f4f0"/>
+        <path d="M202 117 L 212 84 L 186 108 Z" fill="#e6f4f0"/>
+
+        <!-- Cheek blush -->
+        <ellipse cx="118" cy="174" rx="12" ry="6" fill="#e87b3a" opacity=".28"/>
+        <ellipse cx="202" cy="174" rx="12" ry="6" fill="#e87b3a" opacity=".28"/>
+
+        <!-- Happy closed eyes (^ ^) -->
+        <path d="M126 156 Q 138 146 150 156" stroke="#1a1410" stroke-width="3.6" fill="none" stroke-linecap="round"/>
+        <path d="M170 156 Q 182 146 194 156" stroke="#1a1410" stroke-width="3.6" fill="none" stroke-linecap="round"/>
+
+        <!-- Nose -->
+        <path d="M153 175 L 167 175 L 160 184 Z" fill="#06302b"/>
+
+        <!-- Content smile -->
+        <path d="M148 190 Q 160 202 172 190" stroke="#1a1410" stroke-width="3.4" fill="none" stroke-linecap="round"/>
+
+        <!-- Whiskers -->
+        <line x1="98" y1="172" x2="135" y2="178" stroke="#06302b" stroke-width="1.7" stroke-linecap="round"/>
+        <line x1="98" y1="184" x2="135" y2="184" stroke="#06302b" stroke-width="1.7" stroke-linecap="round"/>
+        <line x1="98" y1="196" x2="135" y2="190" stroke="#06302b" stroke-width="1.7" stroke-linecap="round"/>
+        <line x1="222" y1="172" x2="185" y2="178" stroke="#06302b" stroke-width="1.7" stroke-linecap="round"/>
+        <line x1="222" y1="184" x2="185" y2="184" stroke="#06302b" stroke-width="1.7" stroke-linecap="round"/>
+        <line x1="222" y1="196" x2="185" y2="190" stroke="#06302b" stroke-width="1.7" stroke-linecap="round"/>
+      </svg>
+
+      <span class="hof-ty__pill hof-fade hof-fade--d1">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+        Payment Confirmed
+      </span>
+
+      <h1 class="hof-ty__title hof-fade hof-fade--d2">Thank you &mdash; <em>your order is in.</em></h1>
+      <p class="hof-ty__sub hof-fade hof-fade--d2">We're so glad you're here. <strong>Your downloads and access links are on their way to your inbox right now.</strong></p>
+
+      <div class="hof-ty__card hof-fade hof-fade--d3">
+        <p class="hof-ty__card-h">What happens next</p>
+        <div class="hof-ty__step">
+          <span class="hof-ty__num">1</span>
+          <p><b>Check your email.</b> Your receipt and access links arrive within a few minutes.</p>
+        </div>
+        <div class="hof-ty__step">
+          <span class="hof-ty__num">2</span>
+          <p><b>Peek in spam / promotions</b> if you don't see it. Add us to your contacts so you never miss a thing.</p>
+        </div>
+        <div class="hof-ty__step">
+          <span class="hof-ty__num">3</span>
+          <p><b>Dive in.</b> Your resources are yours to keep &mdash; revisit them anytime.</p>
+        </div>
+      </div>
+
+      <p class="hof-ty__order hof-fade hof-fade--d3" id="hof-ty-order" hidden>Order reference: <span></span></p>
+
+      <div class="hof-ty__actions hof-fade hof-fade--d4">
+        <a href="/resources" class="hof-btn">
+          Browse more resources
+          <svg viewBox="0 0 24 24" class="hof-i" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a href="/" class="hof-btn hof-btn--ghost">Back to home</a>
+      </div>
+
+      <p class="hof-ty__support hof-fade hof-fade--d5">
+        Questions about your order? Email <a href="mailto:info@heartsonfiretv.com">info@heartsonfiretv.com</a>
+      </p>
+
+    </div>
+  </main>
+</div>
+
+<script>
+// If you append "?session_id={CHECKOUT_SESSION_ID}" to the success_url in the
+// checkout script, the Stripe order reference shows here automatically.
+(function () {
+  try {
+    var sid = new URLSearchParams(location.search).get("session_id");
+    if (sid) {
+      var el = document.getElementById("hof-ty-order");
+      el.querySelector("span").textContent = sid;
+      el.hidden = false;
+    }
+  } catch (e) {}
+})();
+</script>
+
+</body>
+</html>
