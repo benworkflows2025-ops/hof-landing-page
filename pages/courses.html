@@ -519,11 +519,28 @@ body { font-family: 'DM Sans', system-ui, sans-serif; background: #fdf8ef; color
   var HOF_CHECKOUT_URL = "https://puba321.app.n8n.cloud/webhook/hof-checkout";
   var THANK_YOU_URL = "https://heartsonfiretv.com/thank-you"; // <- change to your post-purchase page slug
 
-  var current = null, modal, fFirst, fLast, fEmail, fPhone, errBox, payBtn, summaryEl;
+  var current = null, modal, noticeEl, fFirst, fLast, fEmail, fPhone, errBox, payBtn, summaryEl;
 
   function priceToCents(t) { var n = parseFloat(String(t).replace(/[^0-9.]/g, "")); return isNaN(n) ? 0 : Math.round(n * 100); }
   function money(c) { return "$" + (c / 100).toFixed(2); }
   function showErr(m) { errBox.textContent = m; errBox.hidden = false; }
+  function notice(text) {
+    if (!modal) build();
+    if (!noticeEl) {
+      var o = document.createElement("div");
+      o.className = "hof-co-overlay";
+      o.innerHTML = '<div class="hof-co-modal" role="dialog" aria-modal="true" aria-label="Coming soon" style="max-width:400px;text-align:center"><button type="button" class="hof-co-close" aria-label="Close">&times;</button><div style="font-size:38px;line-height:1;margin:2px 0 10px">&#10024;</div><h2 class="hof-co-title" style="text-align:center">Coming Soon</h2><p class="hof-co-notice-text" style="font-size:15px;color:#3d3027;line-height:1.65;margin:10px 0 24px"></p><a href="/connect" class="hof-co-pay" style="text-decoration:none">Get Notified &rarr;</a></div>';
+      document.body.appendChild(o);
+      noticeEl = o;
+      var hideN = function () { noticeEl.classList.remove("hof-co-open"); document.body.style.overflow = ""; };
+      o.querySelector(".hof-co-close").addEventListener("click", hideN);
+      o.addEventListener("click", function (e) { if (e.target === o) hideN(); });
+    }
+    noticeEl.querySelector(".hof-co-notice-text").textContent = text;
+    noticeEl.classList.add("hof-co-open");
+    document.body.style.overflow = "hidden";
+  }
+
 
   function build() {
     var css = document.createElement("style");
@@ -634,7 +651,7 @@ body { font-family: 'DM Sans', system-ui, sans-serif; background: #fdf8ef; color
     var descEl = card.querySelector(".hof-card__desc");
     var priceEl = card.querySelector(".hof-card__price");
     var cents = priceToCents(priceEl ? priceEl.textContent : "");
-    if (!cents) { alert("Pricing for this resource is coming soon — please check back shortly."); return; } // Price TBD
+    if (!cents) { notice("Pricing for this resource is on the way — check back soon, or get notified and you'll be first to know."); return; } // Price TBD
     var coverEl = card.querySelector(".hof-card__cover-art");
     var productId = "";
     if (coverEl) { var pm = (coverEl.getAttribute("src") || "").match(/\/([^\/]+)\.(?:svg|jpg|jpeg|png|webp)(?:\?|$)/i); if (pm) productId = pm[1]; }
