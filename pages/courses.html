@@ -124,6 +124,14 @@ body { font-family: 'DM Sans', system-ui, sans-serif; background: #fdf8ef; color
 .hof-root .hof-card__cta { display: inline-flex; align-items: center; gap: 8px; color: var(--rose-500); font-weight: 600; font-size: 14px; transition: color .3s; }
 .hof-root .hof-card__cta:hover { color: var(--rose-600); }
 .hof-root .hof-card__arrow { transition: transform .4s ease; width: 16px; height: 16px; }
+.hof-root .hof-soon { max-width: 660px; margin: 0 auto; text-align: center; padding: 32px 24px 8px; }
+.hof-root .hof-soon__badge { display: inline-flex; align-items: center; justify-content: center; width: 84px; height: 84px; border-radius: 9999px; background: rgba(var(--rose-rgb),.08); border: 1px solid var(--rose-300); margin-bottom: 24px; }
+.hof-root .hof-soon__badge .hof-i { width: 36px; height: 36px; color: var(--rose-500); }
+.hof-root .hof-soon__eyebrow { color: var(--rose-500); margin-bottom: 14px; }
+.hof-root .hof-soon__title { font-family: 'Playfair Display', serif; font-weight: 700; font-size: clamp(28px, 4vw, 38px); line-height: 1.2; color: var(--ink-900); margin-bottom: 16px; }
+.hof-root .hof-soon__title em { font-style: italic; color: var(--rose-500); font-weight: 500; }
+.hof-root .hof-soon__text { color: var(--ink-500); font-size: 16px; line-height: 1.7; margin-bottom: 28px; }
+.hof-root .hof-soon__actions { display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; align-items: center; }
 /* --- Real product cards (covers + subtitle + type badge + TBD price) --- */
 .hof-root .hof-card--product .hof-card__cover { aspect-ratio: 5 / 7; }
 .hof-root .hof-card__cover-art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 1.4s cubic-bezier(.16,1,.3,1); }
@@ -250,46 +258,16 @@ body { font-family: 'DM Sans', system-ui, sans-serif; background: #fdf8ef; color
 <section class="hof-catalog">
   <div class="hof-catalog__inner">
 
-    <!--
-      HOF PLACEHOLDER COVERS — SWAP WHEN LANITA SENDS REAL COVERS:
-      Covers are SVG placeholders in /img/covers/. When the real covers arrive
-      (jpg/png), drop them into /img/covers/ and update the matching
-      <img class="hof-card__cover-art" src="..."> below (filename/extension only):
-        guard-your-heart-book   -> Guard Your Heart (Book)
-        companion-workbook      -> Companion Reflection Workbook
-        small-group-guide       -> Small Group Discussion Guide
-        thirty-day-journal      -> 30-Day Guard Your Heart Journal
-      No other code changes needed.
-    -->
-
-    <div class="hof-catalog__grid">
-
-      <article class="hof-card hof-card--product hof-reveal">
-        <div class="hof-card__cover"><img class="hof-card__cover-art" src="/img/covers/guard-your-heart-book.jpg" alt="Guard Your Heart by LaNita D. Butler — book cover" loading="lazy"><span class="hof-card__badge hof-card__badge--type">Book</span></div>
-        <div class="hof-card__body"><h3 class="hof-card__title">Guard Your Heart</h3><p class="hof-card__subtitle">Healing, Restoration, and the Journey Back to Wholeness</p><p class="hof-card__desc">LaNita D. Butler on the connection between the condition of your heart and the quality of your life — a guide to healing, healthier boundaries, and protecting what matters most. Life may not offer a do-over, but it always offers a chance to reset, rebuild, and move forward.</p><div class="hof-card__foot"><span class="hof-card__price">$9.99</span><a href="#" class="hof-card__cta">Get Instant Access<svg class="hof-i hof-card__arrow"><use href="#hof-i-arrow-right"/></svg></a></div></div>
-      </article>
-
-      <article class="hof-card hof-card--product hof-reveal hof-reveal--d1">
-        <div class="hof-card__cover"><img class="hof-card__cover-art" src="/img/covers/companion-workbook.jpg" alt="Guard Your Heart Companion Reflection Workbook — cover" loading="lazy"><span class="hof-card__badge hof-card__badge--type">Workbook</span></div>
-        <div class="hof-card__body"><h3 class="hof-card__title">Guard Your Heart: Companion Reflection Workbook</h3><p class="hof-card__subtitle">A Guided Journey of Self-Examination, Healing, Growth and Restoration</p><p class="hof-card__desc">A companion workbook designed to deepen your experience with the Guard Your Heart book.</p><div class="hof-card__foot"><span class="hof-card__price hof-card__price--tbd">Price TBD</span><!-- UPDATE PRICE BEFORE GO-LIVE --><a href="#" class="hof-card__cta">Get Instant Access<svg class="hof-i hof-card__arrow"><use href="#hof-i-arrow-right"/></svg></a></div></div>
-      </article>
-
-      <article class="hof-card hof-card--product hof-reveal hof-reveal--d2">
-        <div class="hof-card__cover"><img class="hof-card__cover-art" src="/img/covers/small-group-guide.jpg" alt="Small Group Discussion Guide — cover" loading="lazy"><span class="hof-card__badge hof-card__badge--type">Guide</span></div>
-        <div class="hof-card__body"><h3 class="hof-card__title">Small Group Discussion Guide</h3><p class="hof-card__subtitle">With Leader Facilitation Guide</p><p class="hof-card__desc">A structured small group guide with a full leader facilitation guide for group settings.</p><div class="hof-card__foot"><span class="hof-card__price hof-card__price--tbd">Price TBD</span><!-- UPDATE PRICE BEFORE GO-LIVE --><a href="#" class="hof-card__cta">Get Instant Access<svg class="hof-i hof-card__arrow"><use href="#hof-i-arrow-right"/></svg></a></div></div>
-      </article>
-
-      <article class="hof-card hof-card--product hof-reveal">
-        <div class="hof-card__cover"><img class="hof-card__cover-art" src="/img/covers/thirty-day-journal.jpg" alt="30-Day Guard Your Heart Journal — cover" loading="lazy"><span class="hof-card__badge hof-card__badge--type">Journal</span></div>
-        <div class="hof-card__body"><h3 class="hof-card__title">30-Day Guard Your Heart Journal</h3><p class="hof-card__desc">A 30-day guided journal to support your personal healing and reflection practice.</p><div class="hof-card__foot"><span class="hof-card__price hof-card__price--tbd">Price TBD</span><!-- UPDATE PRICE BEFORE GO-LIVE --><a href="#" class="hof-card__cta">Get Instant Access<svg class="hof-i hof-card__arrow"><use href="#hof-i-arrow-right"/></svg></a></div></div>
-      </article>
-
+    <div class="hof-soon hof-reveal">
+      <span class="hof-soon__badge"><svg class="hof-i"><use href="#hof-i-video"/></svg></span>
+      <p class="hof-eyebrow hof-soon__eyebrow">Coming Soon</p>
+      <h2 class="hof-soon__title">Video courses are <em>in production.</em></h2>
+      <p class="hof-soon__text">We're filming multi-session teaching courses to go deeper on growth, relationships, leadership, and everyday faith — with lifetime access to watch anytime, on any device. They're not quite ready yet, but our resources are available now.</p>
+      <div class="hof-soon__actions">
+        <a href="/resources" class="hof-btn hof-btn--primary hof-btn--shine">Browse Resources<svg class="hof-i"><use href="#hof-i-arrow-right"/></svg></a>
+        <a href="/connect" class="hof-link-u" style="color:var(--rose-500);font-weight:600">Get notified &rarr;</a>
+      </div>
     </div>
-
-    <p class="hof-catalog__empty hof-reveal">
-      <strong>More courses coming soon</strong>
-      Follow on <a href="https://www.facebook.com/heartsonfirenetworkofficial/" target="_blank" rel="noopener" class="hof-link-u" style="color:var(--rose-500);font-weight:500">Facebook</a> for the latest releases.
-    </p>
   </div>
 </section>
 

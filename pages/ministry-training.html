@@ -135,6 +135,14 @@ body { font-family: 'DM Sans', system-ui, sans-serif; background: #fdf8ef; color
 .hof-root .hof-card__cta { display: inline-flex; align-items: center; gap: 8px; color: var(--rose-500); font-weight: 600; font-size: 14px; transition: color .3s; }
 .hof-root .hof-card__cta:hover { color: var(--rose-600); }
 .hof-root .hof-card__arrow { transition: transform .4s ease; width: 16px; height: 16px; }
+.hof-root .hof-soon { max-width: 660px; margin: 0 auto; text-align: center; padding: 32px 24px 8px; }
+.hof-root .hof-soon__badge { display: inline-flex; align-items: center; justify-content: center; width: 84px; height: 84px; border-radius: 9999px; background: rgba(var(--rose-rgb),.08); border: 1px solid var(--rose-300); margin-bottom: 24px; }
+.hof-root .hof-soon__badge .hof-i { width: 36px; height: 36px; color: var(--rose-500); }
+.hof-root .hof-soon__eyebrow { color: var(--rose-500); margin-bottom: 14px; }
+.hof-root .hof-soon__title { font-family: 'Playfair Display', serif; font-weight: 700; font-size: clamp(28px, 4vw, 38px); line-height: 1.2; color: var(--ink-900); margin-bottom: 16px; }
+.hof-root .hof-soon__title em { font-style: italic; color: var(--rose-500); font-weight: 500; }
+.hof-root .hof-soon__text { color: var(--ink-500); font-size: 16px; line-height: 1.7; margin-bottom: 28px; }
+.hof-root .hof-soon__actions { display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; align-items: center; }
 @media (min-width: 768px) { .hof-root .hof-card__body { padding: 28px; } }
 .hof-root .hof-cta-strip { background: linear-gradient(180deg, #1a1410 0%, #0d0a07 100%); color: var(--cream-100); padding: 80px 24px; position: relative; overflow: hidden; }
 .hof-root .hof-cta-strip::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 110%, rgba(26,132,120,.18), transparent 60%); pointer-events: none; }
@@ -260,32 +268,16 @@ body { font-family: 'DM Sans', system-ui, sans-serif; background: #fdf8ef; color
       <p class="hof-catalog__sub">Whether you lead a congregation, a marriage in ministry, a creative team, or a mentorship circle, these programs are designed to strengthen leaders, deepen relationships, and grow healthy ministries.</p>
     </div>
 
-    <!--
-    HOW TO ADD A TRAINING PROGRAM: Copy ONE entire <article class="hof-card hof-reveal">
-    block below and paste it inside <div class="hof-catalog__grid">. Replace TITLE,
-    DESCRIPTION, PRICE, STRIPE LINK, and BADGE.
-    -->
-
-    <div class="hof-catalog__grid">
-
-      <article class="hof-card hof-reveal">
-        <div class="hof-card__cover"><div class="hof-card__cover-img"><svg class="hof-i"><use href="#hof-i-shield"/></svg></div><span class="hof-card__badge"><svg class="hof-i"><use href="#hof-i-shield"/></svg>Leadership Training</span></div>
-        <div class="hof-card__body"><h3 class="hof-card__title">Ministry Leadership Foundations</h3><p class="hof-card__desc">A 12-week program training emerging ministry leaders in practical leadership — communication, vision, team-building, and self-management.</p><div class="hof-card__foot"><span class="hof-card__price">$199</span><a href="#" class="hof-card__cta">Enroll Now<svg class="hof-i hof-card__arrow"><use href="#hof-i-arrow-right"/></svg></a></div></div>
-      </article>
-
-      <article class="hof-card hof-reveal hof-reveal--d1">
-        <div class="hof-card__cover"><div class="hof-card__cover-img"><svg class="hof-i"><use href="#hof-i-mic"/></svg></div><span class="hof-card__badge"><svg class="hof-i"><use href="#hof-i-mic"/></svg>Worship Training</span></div>
-        <div class="hof-card__body"><h3 class="hof-card__title">Pastoral Care Skills</h3><p class="hof-card__desc">Practical training in emotional intelligence, active listening, and pastoral counsel for ministry leaders and lay teams.</p><div class="hof-card__foot"><span class="hof-card__price">$149</span><a href="#" class="hof-card__cta">Enroll Now<svg class="hof-i hof-card__arrow"><use href="#hof-i-arrow-right"/></svg></a></div></div>
-      </article>
-
-      <article class="hof-card hof-reveal hof-reveal--d2">
-        <div class="hof-card__cover"><div class="hof-card__cover-img"><svg class="hof-i"><use href="#hof-i-flame"/></svg></div><span class="hof-card__badge"><svg class="hof-i"><use href="#hof-i-flame"/></svg>Intercession Training</span></div>
-        <div class="hof-card__body"><h3 class="hof-card__title">Speaking &amp; Teaching Mastery</h3><p class="hof-card__desc">A 6-month intensive for ministry leaders who teach, preach, or speak. Content development, delivery, and presence.</p><div class="hof-card__foot"><span class="hof-card__price">$129</span><a href="#" class="hof-card__cta">Enroll Now<svg class="hof-i hof-card__arrow"><use href="#hof-i-arrow-right"/></svg></a></div></div>
-      </article>
-
+    <div class="hof-soon hof-reveal">
+      <span class="hof-soon__badge"><svg class="hof-i"><use href="#hof-i-shield"/></svg></span>
+      <p class="hof-eyebrow hof-soon__eyebrow">Coming Soon</p>
+      <h2 class="hof-soon__title">Leadership &amp; ministry training is <em>on the way.</em></h2>
+      <p class="hof-soon__text">We're developing practical training to equip ministry leaders and teams — leadership and communication, pastoral care, teaching and speaking, and healthy team-building. Want first access when it launches, or training shaped for your church or team?</p>
+      <div class="hof-soon__actions">
+        <a href="/connect" class="hof-btn hof-btn--primary hof-btn--shine">Get in Touch<svg class="hof-i"><use href="#hof-i-arrow-right"/></svg></a>
+        <a href="/resources" class="hof-link-u" style="color:var(--rose-500);font-weight:600">Browse Resources &rarr;</a>
+      </div>
     </div>
-
-    <p class="hof-catalog__empty hof-reveal"><strong>Custom training for your ministry?</strong>Need something tailored for your team or church? <a href="/connect" class="hof-link-u" style="color:var(--rose-500);font-weight:500">Get in touch</a> for a consultation.</p>
   </div>
 </section>
 
