@@ -545,9 +545,9 @@ body { font-family: 'DM Sans', system-ui, sans-serif; background: #fdf8ef; color
   function build() {
     var css = document.createElement("style");
     css.textContent =
-      ".hof-co-overlay{position:fixed;inset:0;z-index:99999;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(6,48,43,.55);}" +
+      ".hof-co-overlay,.hof-co-overlay *{box-sizing:border-box;}.hof-co-overlay{position:fixed;inset:0;z-index:99999;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(6,48,43,.55);}" +
       ".hof-co-overlay.hof-co-open{display:flex;}" +
-      ".hof-co-modal{position:relative;width:100%;max-width:460px;background:#fdf8ef;border:1px solid #cbe4dd;border-radius:16px;padding:30px 28px 24px;box-shadow:0 24px 60px rgba(6,48,43,.28);font-family:'DM Sans',system-ui,Arial,sans-serif;max-height:92vh;overflow:auto;}" +
+      ".hof-co-modal{position:relative;width:100%;max-width:460px;background:#fdf8ef;border:1px solid #cbe4dd;border-radius:16px;padding:30px 28px 24px;box-shadow:0 24px 60px rgba(6,48,43,.28);font-family:'DM Sans',system-ui,Arial,sans-serif;max-height:92vh;overflow-y:auto;overflow-x:hidden;}" +
       ".hof-co-close{position:absolute;top:12px;right:16px;border:0;background:transparent;font-size:26px;line-height:1;color:#7d6b5e;cursor:pointer;}" +
       ".hof-co-title{margin:0 0 4px;font-family:'Playfair Display',Georgia,serif;font-size:22px;font-weight:700;color:#1a1410;}" +
       ".hof-co-summary{margin:0 0 18px;font-size:14px;color:#0d5b54;font-weight:600;}" +
