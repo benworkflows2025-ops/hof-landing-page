@@ -81,7 +81,7 @@ body{font-family:'Lora',Georgia,serif;background:#071f1c;color:#e9f3f0}
   var BOOK=window.BOOK, bookEl=document.getElementById('book'), loadEl=document.getElementById('load');
   var indEl=document.getElementById('ind'), tocList=document.getElementById('tocList'), tocEl=document.getElementById('toc');
   document.getElementById('bktitle').textContent=BOOK.title+' · '+BOOK.author;
-  var flip=null, chapters=[], totalFlip=0, api=null;
+  var flip=null, chapters=[], totalFlip=0, api=null, curIndex=0;
 
   function size(){
     var vw=innerWidth, vh=innerHeight, availH=vh-120, portrait=vw<820, PW;
@@ -91,13 +91,13 @@ body{font-family:'Lora',Georgia,serif;background:#071f1c;color:#e9f3f0}
     if(PH>availH){PH=Math.round(availH);PW=Math.round(PH*0.66);}
     return {PW:Math.round(PW),PH:PH,portrait:portrait};
   }
-  function ind(cur){indEl.textContent=(cur+1)+' / '+totalFlip;}
+  function ind(cur){curIndex=cur;indEl.textContent=(cur+1)+' / '+totalFlip;}
 
   function paginate(s){
     var pr=document.createElement('div'); pr.className='pg';
     pr.style.cssText='position:absolute;left:-9999px;top:0;width:'+s.PW+'px;height:'+s.PH+'px';
     document.body.appendChild(pr);
-    function fits(){return pr.scrollHeight<=pr.clientHeight+1;}
+    function fits(){return pr.scrollHeight<=pr.clientHeight-18;}
     var pages=[]; chapters=[];
     function flush(){pages.push(pr.innerHTML);pr.innerHTML='';}
     var it=BOOK.items;
@@ -157,7 +157,7 @@ body{font-family:'Lora',Georgia,serif;background:#071f1c;color:#e9f3f0}
       flip.loadFromHTML(bookEl.querySelectorAll('.page'));
       totalFlip=flip.getPageCount(); ind(0);
       flip.on('flip',function(e){ind(e.data);});
-      api={next:function(){flip.flipNext();},prev:function(){flip.flipPrev();},goto:function(p){flip.flip(p);}};
+      api={next:function(){flip.flipNext();},prev:function(){flip.flipPrev();},goto:function(p){flip.flip(p);},jump:function(p){try{flip.turnToPage(p);}catch(e){flip.flip(p);}}};
     }catch(err){mobileReader(s,els);}
   }
   function mobileReader(s,els){
@@ -169,19 +169,26 @@ body{font-family:'Lora',Georgia,serif;background:#071f1c;color:#e9f3f0}
     var idx=0; totalFlip=els.length;
     function show(i){idx=Math.max(0,Math.min(els.length-1,i));track.style.transform='translateX(-'+(idx*s.PW)+'px)';ind(idx);}
     show(0);
-    api={next:function(){show(idx+1);},prev:function(){show(idx-1);},goto:function(p){show(p);}};
+    api={next:function(){show(idx+1);},prev:function(){show(idx-1);},goto:function(p){show(p);},jump:function(p){var t=track.style.transition;track.style.transition='none';show(p);requestAnimationFrame(function(){track.style.transition=t;});}};
     var x0=null,y0=null;
     view.addEventListener('touchstart',function(e){x0=e.touches[0].clientX;y0=e.touches[0].clientY;},{passive:true});
     view.addEventListener('touchend',function(e){if(x0==null)return;var dx=e.changedTouches[0].clientX-x0,dy=e.changedTouches[0].clientY-y0;if(Math.abs(dx)>38&&Math.abs(dx)>Math.abs(dy))show(idx+(dx<0?1:-1));x0=null;},{passive:true});
   }
-  function render(){
+  function loadFonts(){
+    if(!document.fonts||!document.fonts.load) return Promise.resolve();
+    var f=['400 15px "Lora"','italic 400 15px "Lora"','500 15px "Lora"','600 17px "Playfair Display"','700 23px "Playfair Display"'];
+    return Promise.all(f.map(function(x){return document.fonts.load(x).catch(function(){});}));
+  }
+  function go(){
+    var frac=(totalFlip>1)?(curIndex/(totalFlip-1)):0;
     loadEl.classList.remove('hide');
     setTimeout(function(){
       var s=size(); var pages=paginate(s); var els=makePages(s,pages);
       if(flip){try{flip.destroy();}catch(e){}flip=null;}
       if(s.portrait) mobileReader(s,els); else desktopFlip(s,els);
       buildToc();
-      setTimeout(function(){loadEl.classList.add('hide');},140);
+      if(frac>0&&api&&api.jump){var tp=Math.round(frac*(totalFlip-1));if(tp>0){try{api.jump(tp);}catch(e){}}}
+      setTimeout(function(){loadEl.classList.add('hide');},150);
     },40);
   }
   document.getElementById('next').onclick=function(){if(api)api.next();};
@@ -190,9 +197,12 @@ body{font-family:'Lora',Georgia,serif;background:#071f1c;color:#e9f3f0}
   document.getElementById('tocBtn').onclick=function(){tocEl.classList.toggle('open');};
   document.getElementById('tocClose').onclick=function(){tocEl.classList.remove('open');};
   setTimeout(function(){var h=document.getElementById('hint');if(h)h.style.opacity='0';},6000);
-  var rt;addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(render,350);});
-  if(document.fonts&&document.fonts.ready){document.fonts.ready.then(render);setTimeout(function(){if(!api)render();},2600);}
-  else render();
+  var rt;
+  function refit(){loadEl.classList.remove('hide');clearTimeout(rt);rt=setTimeout(function(){loadFonts().then(go);},280);}
+  addEventListener('resize',refit);
+  if(window.visualViewport)visualViewport.addEventListener('resize',refit);
+  loadFonts().then(go);
+  setTimeout(function(){if(!api)go();},3000);
 })();
 </script>
 </body>
