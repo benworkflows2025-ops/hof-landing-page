@@ -29,6 +29,7 @@ const PRODUCTS = {
   'companion-workbook':    { title: 'Guard Your Heart: Companion Reflection Workbook', key: 'hof-pdfs/companion-workbook.pdf' },
   'small-group-guide':     { title: 'Small Group Discussion Guide', key: 'hof-pdfs/small-group-guide.pdf' },
   'thirty-day-journal':    { title: '30-Day Guard Your Heart Journal', key: 'hof-pdfs/thirty-day-journal.pdf' },
+  'test-product':          { title: 'HOF Test Product', key: 'hof-pdfs/test-product.pdf' }, // internal $0 system test — remove before launch
 };
 
 // Resolve a product by id, or fall back to an exact title match (the checkout
