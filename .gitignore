@@ -14,6 +14,10 @@ hof-chat-workflow.json
 *.md
 *.pdf
 
+# Local build tooling for the book reader (content is inlined into pages/book.html)
+data/
+generate_book.py
+
 # OS / editor cruft
 .DS_Store
 Thumbs.db
