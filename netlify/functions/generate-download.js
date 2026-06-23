@@ -25,7 +25,7 @@ const MAX_DOWNLOADS = 2;
 // Product catalog — keep in sync with the website + supabase-setup.sql.
 // `key` = "<bucket>/<path>" for the ORIGINAL master PDF.
 const PRODUCTS = {
-  'guard-your-heart-book': { title: 'Guard Your Heart', key: 'hof-pdfs/guard-your-heart-book.pdf' },
+  'guard-your-heart-book': { title: 'Guard Your Heart', key: 'hof-pdfs/guard-your-heart-book.pdf', reader: true }, // digital reader only — no PDF download
   'companion-workbook':    { title: 'Guard Your Heart: Companion Reflection Workbook', key: 'hof-pdfs/companion-workbook.pdf' },
   'small-group-guide':     { title: 'Small Group Discussion Guide', key: 'hof-pdfs/small-group-guide.pdf' },
   'thirty-day-journal':    { title: '30-Day Guard Your Heart Journal', key: 'hof-pdfs/thirty-day-journal.pdf' },
@@ -66,6 +66,24 @@ exports.handler = async (event) => {
   if (!product) return json(400, { error: 'Unknown product', detail: { product_id: body.product_id, product_title: body.product_title } });
 
   const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY, { auth: { persistSession: false } });
+
+  // Reader-only products (digital, no PDF download): just mint the in-browser reader access token.
+  if (product.reader) {
+    const rToken = crypto.randomUUID();
+    const rExpires = new Date(Date.now() + EXPIRY_HOURS * 3600 * 1000).toISOString();
+    const { error: rErr } = await supabase.from('hof_download_tokens').insert({
+      token: rToken,
+      buyer_name: buyer_name || 'Customer',
+      buyer_email,
+      product_id: product.id,
+      product_title: product.title,
+      pdf_storage_path: 'reader-only',
+      expires_at: rExpires,
+      max_downloads: MAX_DOWNLOADS,
+    });
+    if (rErr) return json(502, { error: 'Token creation failed', detail: rErr.message });
+    return json(200, { reader: true, reader_url: `${SITE_URL}/book?key=${rToken}`, token: rToken, product_title: product.title });
+  }
 
   // 1) fetch the master PDF
   const [origBucket, ...rest] = product.key.split('/');
