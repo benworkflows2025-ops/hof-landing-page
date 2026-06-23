@@ -148,7 +148,12 @@ body{font-family:'Lora',Georgia,serif;background:#06302b}
 
 <script>
 (function(){
-  var FN='/.netlify/functions', BOOKSLUG='guard-your-heart', UKEY='hof-unlock-'+BOOKSLUG;
+  var FN='/.netlify/functions';
+  var BOOKMETA={'guard-your-heart':{title:'Guard Your Heart',cover:'/img/covers/guard-your-heart-book.jpg'},'companion-workbook':{title:'Guard Your Heart: Companion Reflection Workbook',cover:'/img/covers/companion-workbook.jpg'}};
+  var BOOKSLUG=new URLSearchParams(location.search).get('book')||'guard-your-heart';
+  if(!BOOKMETA[BOOKSLUG])BOOKSLUG='guard-your-heart';
+  var META=BOOKMETA[BOOKSLUG], UKEY='hof-unlock-'+BOOKSLUG;
+  try{document.querySelector('.gatebox img').src=META.cover;document.querySelector('.gatebox h1').textContent=META.title;document.title=META.title+' — Hearts On Fire Network';}catch(e){}
   var boot=document.getElementById('boot'), gate=document.getElementById('gate');
   var form=document.getElementById('gateForm'), gerr=document.getElementById('gerr'), gmsg=document.getElementById('gmsg'), gfoot=document.getElementById('gfoot');
   var gateBtn=document.getElementById('gateBtn'), gateEmail=document.getElementById('gateEmail');

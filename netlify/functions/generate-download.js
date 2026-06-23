@@ -25,8 +25,8 @@ const MAX_DOWNLOADS = 2;
 // Product catalog — keep in sync with the website + supabase-setup.sql.
 // `key` = "<bucket>/<path>" for the ORIGINAL master PDF.
 const PRODUCTS = {
-  'guard-your-heart-book': { title: 'Guard Your Heart', key: 'hof-pdfs/guard-your-heart-book.pdf', reader: true }, // digital reader only — no PDF download
-  'companion-workbook':    { title: 'Guard Your Heart: Companion Reflection Workbook', key: 'hof-pdfs/companion-workbook.pdf' },
+  'guard-your-heart-book': { title: 'Guard Your Heart', key: 'hof-pdfs/guard-your-heart-book.pdf', reader: true, slug: 'guard-your-heart' }, // digital reader only — no PDF
+  'companion-workbook':    { title: 'Guard Your Heart: Companion Reflection Workbook', key: 'hof-pdfs/companion-workbook.pdf', reader: true, slug: 'companion-workbook' }, // digital reader only — no PDF
   'small-group-guide':     { title: 'Small Group Discussion Guide', key: 'hof-pdfs/small-group-guide.pdf' },
   'thirty-day-journal':    { title: '30-Day Guard Your Heart Journal', key: 'hof-pdfs/thirty-day-journal.pdf' },
   'test-product':          { title: 'HOF Test Product', key: 'hof-pdfs/test-product.pdf' }, // internal $0 system test — remove before launch
@@ -82,7 +82,7 @@ exports.handler = async (event) => {
       max_downloads: MAX_DOWNLOADS,
     });
     if (rErr) return json(502, { error: 'Token creation failed', detail: rErr.message });
-    return json(200, { reader: true, reader_url: `${SITE_URL}/book?key=${rToken}`, token: rToken, product_title: product.title });
+    return json(200, { reader: true, reader_url: `${SITE_URL}/book?key=${rToken}&book=${product.slug || 'guard-your-heart'}`, token: rToken, product_title: product.title });
   }
 
   // 1) fetch the master PDF

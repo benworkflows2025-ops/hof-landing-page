@@ -20,6 +20,7 @@ const BOOKS_BUCKET = 'hof-books';
 // slug -> content file in the bucket + the product id(s) that grant access
 const BOOKS = {
   'guard-your-heart': { file: 'guard-your-heart.json', products: ['guard-your-heart-book'] },
+  'companion-workbook': { file: 'companion-workbook.json', products: ['companion-workbook'] },
 };
 
 const norm = (s) => String(s || '').trim().toLowerCase();
