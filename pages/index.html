@@ -240,7 +240,7 @@ body { font-family: 'DM Sans', system-ui, -apple-system, Segoe UI, Roboto, sans-
 .hof-root .hof-card__cover { position: relative; aspect-ratio: 4/5; overflow: hidden; background: radial-gradient(ellipse at 50% 100%, rgba(26,132,120,.4), transparent 60%), linear-gradient(155deg, #fefcf6 0%, #cbe4dd 55%, #9bcfc6 100%); }
 .hof-root .hof-card__cover-img { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; transition: transform 1.4s cubic-bezier(.16,1,.3,1); }
 .hof-root .hof-card__cover-img .hof-i { width: 64px; height: 64px; color: rgba(var(--rose-rgb),.4); }
-.hof-root .hof-card__badge { position: absolute; top: 16px; left: 16px; display: inline-flex; align-items: center; gap: 6px; background: var(--cream-50); color: var(--ink-800); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .15em; padding: 6px 12px; border-radius: 9999px; border: 1px solid rgba(var(--rose-rgb),.2); }
+.hof-root .hof-card__badge { display: inline-flex; align-items: center; align-self: flex-start; gap: 6px; background: var(--cream-50); color: var(--ink-800); font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .14em; padding: 5px 11px; border-radius: 9999px; border: 1px solid rgba(var(--rose-rgb),.2); margin: 0 0 14px; }
 .hof-root .hof-card__badge .hof-i { width: 14px; height: 14px; color: var(--rose-500); }
 .hof-root .hof-card__body { padding: 24px; display: flex; flex-direction: column; flex: 1; }
 .hof-root .hof-card__title { font-family: 'Playfair Display', serif; font-weight: 600; font-size: 24px; line-height: 1.3; color: var(--ink-900); margin-bottom: 12px; }
@@ -568,9 +568,9 @@ body { font-family: 'DM Sans', system-ui, -apple-system, Segoe UI, Roboto, sans-
       <article class="hof-card hof-card--product hof-reveal">
         <div class="hof-card__cover">
           <img class="hof-card__cover-art" src="/img/covers/guard-your-heart-book.jpg" alt="Guard Your Heart by LaNita D. Butler — book cover" loading="lazy">
-          <span class="hof-card__badge hof-card__badge--type">Book</span>
-        </div>
+          </div>
         <div class="hof-card__body">
+          <span class="hof-card__badge hof-card__badge--type">Book</span>
           <h3 class="hof-card__title">Guard Your Heart</h3>
           <p class="hof-card__desc">LaNita D. Butler on healing, healthier boundaries, and protecting what matters most — because life always offers a chance to reset and rebuild.</p>
           <div class="hof-card__foot">
@@ -583,9 +583,9 @@ body { font-family: 'DM Sans', system-ui, -apple-system, Segoe UI, Roboto, sans-
       <article class="hof-card hof-card--product hof-reveal hof-reveal--d1">
         <div class="hof-card__cover">
           <img class="hof-card__cover-art" src="/img/covers/companion-workbook.jpg" alt="Guard Your Heart Companion Reflection Workbook — cover" loading="lazy">
-          <span class="hof-card__badge hof-card__badge--type">Workbook</span>
-        </div>
+          </div>
         <div class="hof-card__body">
+          <span class="hof-card__badge hof-card__badge--type">Workbook</span>
           <h3 class="hof-card__title">Companion Reflection Workbook</h3>
           <p class="hof-card__desc">Healing begins with honesty — a guided 176-page workbook of reflections, assessments, and action-planning tools for the real work of healing and growth.</p>
           <div class="hof-card__foot">
@@ -598,9 +598,9 @@ body { font-family: 'DM Sans', system-ui, -apple-system, Segoe UI, Roboto, sans-
       <article class="hof-card hof-card--product hof-reveal hof-reveal--d2">
         <div class="hof-card__cover">
           <img class="hof-card__cover-art" src="/img/covers/thirty-day-journal.jpg" alt="30-Day Guard Your Heart Journal — cover" loading="lazy">
-          <span class="hof-card__badge hof-card__badge--type">Journal</span>
-        </div>
+          </div>
         <div class="hof-card__body">
+          <span class="hof-card__badge hof-card__badge--type">Journal</span>
           <h3 class="hof-card__title">30-Day Guard Your Heart Journal</h3>
           <p class="hof-card__desc">A 30-day guided journal to support your personal healing and daily reflection practice.</p>
           <div class="hof-card__foot">

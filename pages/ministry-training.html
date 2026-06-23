@@ -125,7 +125,7 @@ body { font-family: 'DM Sans', system-ui, sans-serif; background: #fdf8ef; color
 .hof-root .hof-card__cover { position: relative; aspect-ratio: 4/5; overflow: hidden; background: radial-gradient(ellipse at 50% 100%, rgba(26,132,120,.4), transparent 60%), linear-gradient(155deg, #fefcf6 0%, #cbe4dd 55%, #9bcfc6 100%); }
 .hof-root .hof-card__cover-img { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; transition: transform 1.4s cubic-bezier(.16,1,.3,1); }
 .hof-root .hof-card__cover-img .hof-i { width: 64px; height: 64px; color: rgba(var(--rose-rgb),.4); }
-.hof-root .hof-card__badge { position: absolute; top: 16px; left: 16px; display: inline-flex; align-items: center; gap: 6px; background: var(--cream-50); color: var(--ink-800); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .15em; padding: 6px 12px; border-radius: 9999px; border: 1px solid rgba(var(--rose-rgb),.2); }
+.hof-root .hof-card__badge { display: inline-flex; align-items: center; align-self: flex-start; gap: 6px; background: var(--cream-50); color: var(--ink-800); font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .14em; padding: 5px 11px; border-radius: 9999px; border: 1px solid rgba(var(--rose-rgb),.2); margin: 0 0 14px; }
 .hof-root .hof-card__badge .hof-i { width: 14px; height: 14px; color: var(--rose-500); }
 .hof-root .hof-card__body { padding: 24px; display: flex; flex-direction: column; flex: 1; }
 .hof-root .hof-card__title { font-family: 'Playfair Display', serif; font-weight: 600; font-size: 24px; line-height: 1.3; color: var(--ink-900); margin-bottom: 12px; }
@@ -276,18 +276,18 @@ body { font-family: 'DM Sans', system-ui, sans-serif; background: #fdf8ef; color
     <div class="hof-catalog__grid">
 
       <article class="hof-card hof-card--product hof-reveal">
-        <div class="hof-card__cover"><img class="hof-card__cover-art" src="/img/covers/training-leadership-foundations.jpg" alt="Ministry Leadership Foundations — training program" loading="lazy"><span class="hof-card__badge hof-card__badge--type">Training</span></div>
-        <div class="hof-card__body"><h3 class="hof-card__title">Ministry Leadership Foundations</h3><p class="hof-card__desc">A program training emerging ministry leaders in practical leadership — communication, vision, team-building, and self-management.</p><div class="hof-card__foot"><span class="hof-card__price hof-card__price--tbd">Coming Soon</span><a href="/connect" class="hof-card__cta">Get Notified<svg class="hof-i hof-card__arrow"><use href="#hof-i-arrow-right"/></svg></a></div></div>
+        <div class="hof-card__cover"><img class="hof-card__cover-art" src="/img/covers/training-leadership-foundations.jpg" alt="Ministry Leadership Foundations — training program" loading="lazy"></div>
+        <div class="hof-card__body"><span class="hof-card__badge hof-card__badge--type">Training</span><h3 class="hof-card__title">Ministry Leadership Foundations</h3><p class="hof-card__desc">A program training emerging ministry leaders in practical leadership — communication, vision, team-building, and self-management.</p><div class="hof-card__foot"><span class="hof-card__price hof-card__price--tbd">Coming Soon</span><a href="/connect" class="hof-card__cta">Get Notified<svg class="hof-i hof-card__arrow"><use href="#hof-i-arrow-right"/></svg></a></div></div>
       </article>
 
       <article class="hof-card hof-card--product hof-reveal hof-reveal--d1">
-        <div class="hof-card__cover"><img class="hof-card__cover-art" src="/img/covers/training-pastoral-care.jpg" alt="Pastoral Care Skills — training program" loading="lazy"><span class="hof-card__badge hof-card__badge--type">Training</span></div>
-        <div class="hof-card__body"><h3 class="hof-card__title">Pastoral Care Skills</h3><p class="hof-card__desc">Practical training in emotional intelligence, active listening, and pastoral counsel for ministry leaders and lay teams.</p><div class="hof-card__foot"><span class="hof-card__price hof-card__price--tbd">Coming Soon</span><a href="/connect" class="hof-card__cta">Get Notified<svg class="hof-i hof-card__arrow"><use href="#hof-i-arrow-right"/></svg></a></div></div>
+        <div class="hof-card__cover"><img class="hof-card__cover-art" src="/img/covers/training-pastoral-care.jpg" alt="Pastoral Care Skills — training program" loading="lazy"></div>
+        <div class="hof-card__body"><span class="hof-card__badge hof-card__badge--type">Training</span><h3 class="hof-card__title">Pastoral Care Skills</h3><p class="hof-card__desc">Practical training in emotional intelligence, active listening, and pastoral counsel for ministry leaders and lay teams.</p><div class="hof-card__foot"><span class="hof-card__price hof-card__price--tbd">Coming Soon</span><a href="/connect" class="hof-card__cta">Get Notified<svg class="hof-i hof-card__arrow"><use href="#hof-i-arrow-right"/></svg></a></div></div>
       </article>
 
       <article class="hof-card hof-card--product hof-reveal hof-reveal--d2">
-        <div class="hof-card__cover"><img class="hof-card__cover-art" src="/img/covers/training-speaking-teaching.jpg" alt="Speaking and Teaching Mastery — training program" loading="lazy"><span class="hof-card__badge hof-card__badge--type">Training</span></div>
-        <div class="hof-card__body"><h3 class="hof-card__title">Speaking &amp; Teaching Mastery</h3><p class="hof-card__desc">An intensive for ministry leaders who teach, preach, or speak — content development, delivery, and presence.</p><div class="hof-card__foot"><span class="hof-card__price hof-card__price--tbd">Coming Soon</span><a href="/connect" class="hof-card__cta">Get Notified<svg class="hof-i hof-card__arrow"><use href="#hof-i-arrow-right"/></svg></a></div></div>
+        <div class="hof-card__cover"><img class="hof-card__cover-art" src="/img/covers/training-speaking-teaching.jpg" alt="Speaking and Teaching Mastery — training program" loading="lazy"></div>
+        <div class="hof-card__body"><span class="hof-card__badge hof-card__badge--type">Training</span><h3 class="hof-card__title">Speaking &amp; Teaching Mastery</h3><p class="hof-card__desc">An intensive for ministry leaders who teach, preach, or speak — content development, delivery, and presence.</p><div class="hof-card__foot"><span class="hof-card__price hof-card__price--tbd">Coming Soon</span><a href="/connect" class="hof-card__cta">Get Notified<svg class="hof-i hof-card__arrow"><use href="#hof-i-arrow-right"/></svg></a></div></div>
       </article>
 
     </div>
