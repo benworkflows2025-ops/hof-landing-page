@@ -25,8 +25,10 @@ body{font-family:'Lora',Georgia,serif;background:#06302b}
 #bar.hide{transform:translateY(-100%)}
 .ico{width:40px;height:40px;border:none;background:transparent;color:var(--fg);font-size:19px;cursor:pointer;border-radius:8px;display:flex;align-items:center;justify-content:center}
 .ico:hover{background:var(--rule)}
-#bartitle{position:absolute;left:50%;transform:translateX(-50%);font-family:'Playfair Display',serif;font-size:15px;color:var(--fg);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:46%;text-align:center}
-.barright{display:flex;gap:0}
+#bartitle{flex:1;min-width:0;font-family:'Playfair Display',serif;font-size:15px;color:var(--fg);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:center;padding:0 6px}
+.barright{display:flex;gap:4px;align-items:center}
+.dlpill{display:flex;align-items:center;gap:5px;border:1px solid var(--rule);background:transparent;color:var(--fg);font-family:'DM Sans',sans-serif;font-size:12.5px;font-weight:600;padding:7px 13px;border-radius:9999px;cursor:pointer;white-space:nowrap}
+.dlpill:hover{background:var(--rule)}.dlpill .da{color:#e0a91d;font-size:13px;line-height:1}
 .aa{font-weight:700;font-size:16px}.aa b{font-size:21px}
 #pct{position:fixed;bottom:12px;right:14px;font-size:11px;color:var(--muted);z-index:54;font-family:'DM Sans',sans-serif;letter-spacing:.5px;
   pointer-events:none;background:var(--bg);padding:3px 9px;border-radius:9px;border:1px solid var(--rule);opacity:.9}
@@ -131,7 +133,7 @@ body{font-family:'Lora',Georgia,serif;background:#06302b}
     <button class="ico" id="tocBtn" aria-label="Contents">&#9776;</button>
     <div id="bartitle">Guard Your Heart</div>
     <div class="barright">
-      <button class="ico" id="dlBtn" aria-label="Download a copy" title="Download a copy (PDF)">&#11015;</button>
+      <button class="dlpill" id="dlBtn" aria-label="Download a copy" title="Download a copy (PDF)"><span class="da">&#11015;</span> Download</button>
       <button class="ico aa" id="aaBtn" aria-label="Display options"><b>A</b>a</button>
     </div>
   </header>
