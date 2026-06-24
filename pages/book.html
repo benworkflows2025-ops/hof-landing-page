@@ -25,7 +25,8 @@ body{font-family:'Lora',Georgia,serif;background:#06302b}
 #bar.hide{transform:translateY(-100%)}
 .ico{width:40px;height:40px;border:none;background:transparent;color:var(--fg);font-size:19px;cursor:pointer;border-radius:8px;display:flex;align-items:center;justify-content:center}
 .ico:hover{background:var(--rule)}
-#bartitle{font-family:'Playfair Display',serif;font-size:15px;color:var(--fg);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:58%;text-align:center}
+#bartitle{position:absolute;left:50%;transform:translateX(-50%);font-family:'Playfair Display',serif;font-size:15px;color:var(--fg);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:46%;text-align:center}
+.barright{display:flex;gap:0}
 .aa{font-weight:700;font-size:16px}.aa b{font-size:21px}
 #pct{position:fixed;bottom:12px;right:14px;font-size:11px;color:var(--muted);z-index:54;font-family:'DM Sans',sans-serif;letter-spacing:.5px;
   pointer-events:none;background:var(--bg);padding:3px 9px;border-radius:9px;border:1px solid var(--rule);opacity:.9}
@@ -129,7 +130,10 @@ body{font-family:'Lora',Georgia,serif;background:#06302b}
   <header id="bar">
     <button class="ico" id="tocBtn" aria-label="Contents">&#9776;</button>
     <div id="bartitle">Guard Your Heart</div>
-    <button class="ico aa" id="aaBtn" aria-label="Display options"><b>A</b>a</button>
+    <div class="barright">
+      <button class="ico" id="dlBtn" aria-label="Download a copy" title="Download a copy (PDF)">&#11015;</button>
+      <button class="ico aa" id="aaBtn" aria-label="Display options"><b>A</b>a</button>
+    </div>
   </header>
   <div id="pct">0%</div>
   <div id="wm"></div>
@@ -287,6 +291,13 @@ body{font-family:'Lora',Georgia,serif;background:#06302b}
     document.getElementById('aaBtn').onclick=function(e){e.stopPropagation();var o=aa.classList.contains('open');closeAll();if(!o){aa.classList.add('open');scrim.classList.add('show');}};
     document.getElementById('tocBtn').onclick=function(e){e.stopPropagation();var o=toc.classList.contains('open');closeAll();if(!o){toc.classList.add('open');scrim.classList.add('show');}};
     scrim.onclick=closeAll;
+    document.getElementById('dlBtn').onclick=function(){
+      var dl=document.getElementById('dlBtn'); dl.disabled=true; toast('Preparing your PDF…');
+      fetch(FN+'/download-book',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({key:key,email:(lic&&lic.email)||'',book:BOOKSLUG})})
+      .then(function(r){ if(!r.ok) return r.json().then(function(j){throw new Error((j&&j.error)||'failed');}); return r.blob(); })
+      .then(function(blob){ var u=URL.createObjectURL(blob); var a=document.createElement('a'); a.href=u; a.download=(BOOK.title||'Guard Your Heart')+'.pdf'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(function(){URL.revokeObjectURL(u);},6000); toast('Downloaded ✓ — check your files.'); dl.disabled=false; })
+      .catch(function(e){ toast('Couldn’t download: '+(e.message==='email_mismatch'?'access error':'please try again')); dl.disabled=false; });
+    };
 
     // ----- page mode -----
     function layoutPages(){
