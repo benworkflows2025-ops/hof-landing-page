@@ -37,12 +37,13 @@ body{font-family:'Lora',Georgia,serif;background:#06302b}
 #reader[data-mode="page"]{height:100vh;overflow:hidden}
 #reader[data-mode="page"] #stage{position:fixed;top:52px;left:0;right:0;bottom:0;display:flex;justify-content:center;overflow:hidden;z-index:2}
 #reader[data-mode="page"] #frame{width:min(100%,var(--cw));height:100%;overflow:hidden}
-#reader[data-mode="page"] #content{height:100%;column-width:var(--colw,300px);column-gap:var(--gap,64px);column-fill:auto;padding:30px 32px;transition:transform .3s ease;will-change:transform}
+#reader[data-mode="page"] #content{height:100%;column-width:var(--colw,300px);column-gap:var(--gap,64px);column-fill:auto;padding:30px 32px 48px;transition:transform .3s ease;will-change:transform}
 #reader[data-mode="page"] .hero{border-bottom:none;padding:6px 0 18px;margin-bottom:6px;break-inside:avoid}
 #reader[data-mode="page"] .hero img{width:180px;margin-bottom:18px}
 #reader[data-mode="page"] .hero .hint{display:none}
 #reader[data-mode="page"] .endcard{padding:30px 0 8px;margin-top:24px;break-inside:avoid}
-#reader[data-mode="page"] #art .ch,#reader[data-mode="page"] #art .sh{break-inside:avoid}
+#reader[data-mode="page"] #art .ch{-webkit-column-break-before:always;break-before:column;break-inside:avoid}
+#reader[data-mode="page"] #art .sh{break-inside:avoid}
 .hero{text-align:center;padding:34px 0 46px;border-bottom:1px solid var(--rule);margin-bottom:40px}
 .hero img{width:300px;max-width:74%;border-radius:8px;box-shadow:0 18px 50px rgba(0,0,0,.28);display:block;margin:0 auto 26px}
 .hero h1{font-family:'Playfair Display',serif;font-weight:700;font-size:32px;color:var(--fg);line-height:1.15;margin-bottom:8px}
