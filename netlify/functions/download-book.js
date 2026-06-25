@@ -15,8 +15,8 @@ const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY;
 const PDF_BUCKET = 'hof-pdfs';
 
 const BOOKS = {
-  'guard-your-heart':   { file: 'guard-your-heart-green.pdf',   products: ['guard-your-heart-book'], name: 'Guard Your Heart.pdf' },
-  'companion-workbook': { file: 'companion-workbook-green.pdf', products: ['companion-workbook'],     name: 'Guard Your Heart - Companion Workbook.pdf' },
+  'guard-your-heart':   { file: 'guard-your-heart-green.pdf',   products: ['guard-your-heart-book', 'guard-your-heart-bundle'], name: 'Guard Your Heart.pdf' },
+  'companion-workbook': { file: 'companion-workbook-green.pdf', products: ['companion-workbook', 'guard-your-heart-bundle'],     name: 'Guard Your Heart - Companion Workbook.pdf' },
 };
 const norm = (s) => String(s || '').trim().toLowerCase();
 

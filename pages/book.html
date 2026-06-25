@@ -78,6 +78,11 @@ body{font-family:'Lora',Georgia,serif;background:#06302b}
 #toc h4{font-family:'Playfair Display',serif;color:var(--head);font-size:18px;padding:6px 14px 12px}
 #toc a{display:block;color:var(--fg);text-decoration:none;padding:11px 14px;border-radius:8px;font-size:14px;cursor:pointer;font-family:var(--ff)}
 #toc a:hover{background:var(--rule)}#toc a.active{color:var(--head);font-weight:600;background:var(--rule)}
+#libsw{margin:0 6px 10px;padding:0 0 10px;border-bottom:1px solid var(--rule)}
+#libsw .libsw-lab{font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);padding:2px 8px 8px}
+#libsw .libsw-a{display:block;color:var(--head);font-family:var(--ff);font-size:14px;font-weight:600;text-decoration:none;padding:10px 12px;border:1px solid var(--rule);border-radius:9px}
+#libsw .libsw-a:hover{background:var(--rule)}
+#libsw .libsw-a small{display:block;font-family:'DM Sans',sans-serif;font-weight:400;color:var(--muted);font-size:11px;letter-spacing:.04em;margin-top:3px}
 #aa{position:fixed;top:58px;right:10px;width:308px;max-width:94vw;max-height:80vh;overflow:auto;background:var(--bg);border:1px solid var(--rule);border-radius:14px;
   box-shadow:0 20px 50px rgba(0,0,0,.3);z-index:70;padding:16px;transform:translateY(-8px) scale(.97);opacity:0;pointer-events:none;transition:.18s}
 #aa.open{transform:none;opacity:1;pointer-events:auto}
@@ -191,7 +196,11 @@ body{font-family:'Lora',Georgia,serif;background:#06302b}
 
   var params=new URLSearchParams(location.search), key=params.get('key')||'';
   var saved={};try{saved=JSON.parse(localStorage.getItem(UKEY))||{};}catch(e){}
+  // Shared across books: lets a bundle buyer switch titles without re-entering email.
+  var shared={};try{shared=JSON.parse(localStorage.getItem('hof-unlock'))||{};}catch(e){}
   if(!key && saved.key) key=saved.key;
+  if(!key && shared.key) key=shared.key;
+  var LIB=[];
 
   function showGate(mode,msg){
     boot.style.display='none'; gate.style.display='flex';
@@ -213,7 +222,9 @@ body{font-family:'Lora',Georgia,serif;background:#06302b}
     .then(function(r){return r.json().then(function(d){return {s:r.status,d:d};});})
     .then(function(x){
       if(x.s===200 && x.d && x.d.ok){
-        try{localStorage.setItem(UKEY,JSON.stringify({key:k,email:email}));}catch(e){}
+        try{localStorage.setItem(UKEY,JSON.stringify({key:k,email:email}));
+            localStorage.setItem('hof-unlock',JSON.stringify({key:k,email:email}));}catch(e){}
+        LIB=x.d.library||[];
         gate.style.display='none'; boot.style.display='none';
         startReader(x.d.book, x.d.licensed_to);
       } else { showGate('email', errMsg(x.d && x.d.error)); gateBtn.disabled=false; gateBtn.textContent='Unlock my book'; }
@@ -227,8 +238,9 @@ body{font-family:'Lora',Georgia,serif;background:#06302b}
     unlock(key,email,false);
   });
 
+  var autoEmail = (saved.key===key && saved.email) ? saved.email : (shared.key===key && shared.email) ? shared.email : '';
   if(!key){ showGate('nokey'); }
-  else if(saved.key===key && saved.email){ unlock(key,saved.email,true); }
+  else if(autoEmail){ unlock(key,autoEmail,true); }
   else { showGate('email'); }
 
   function startReader(BOOK, lic){
@@ -255,6 +267,19 @@ body{font-family:'Lora',Georgia,serif;background:#06302b}
       a.onclick=jump; a.onkeydown=function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();jump();}};
       tl.appendChild(a); tocLinks.push(a);
     });
+
+    // Bundle switcher — if this purchase unlocks more than one book, offer the others.
+    if(LIB && LIB.length>1){
+      var others=LIB.filter(function(b){return b.slug!==BOOKSLUG;});
+      if(others.length){
+        var box=document.createElement('div'); box.id='libsw';
+        box.innerHTML='<div class="libsw-lab">Your bundle</div>'+others.map(function(b){
+          return '<a class="libsw-a" href="/book?key='+encodeURIComponent(key)+'&book='+encodeURIComponent(b.slug)+'">'+esc(b.title)+'<small>Open in your reader</small></a>';
+        }).join('');
+        var tocNav=document.getElementById('toc');
+        tocNav.insertBefore(box, tl);
+      }
+    }
 
     if(lic){
       var label=(lic.name?lic.name+'  ·  ':'')+lic.email;

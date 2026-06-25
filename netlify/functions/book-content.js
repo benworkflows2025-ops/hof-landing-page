@@ -17,10 +17,11 @@ const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY;
 const BOOKS_BUCKET = 'hof-books';
 
-// slug -> content file in the bucket + the product id(s) that grant access
+// slug -> content file in the bucket + the product id(s) that grant access.
+// 'guard-your-heart-bundle' is the Book + Workbook bundle: one purchase unlocks both.
 const BOOKS = {
-  'guard-your-heart': { file: 'guard-your-heart.json', products: ['guard-your-heart-book'] },
-  'companion-workbook': { file: 'companion-workbook.json', products: ['companion-workbook'] },
+  'guard-your-heart': { file: 'guard-your-heart.json', title: 'Guard Your Heart', products: ['guard-your-heart-book', 'guard-your-heart-bundle'] },
+  'companion-workbook': { file: 'companion-workbook.json', title: 'Companion Reflection Workbook', products: ['companion-workbook', 'guard-your-heart-bundle'] },
 };
 
 const norm = (s) => String(s || '').trim().toLowerCase();
@@ -58,9 +59,16 @@ exports.handler = async (event) => {
   let content;
   try { content = JSON.parse(await file.text()); } catch (e) { return json(500, { error: 'bad_content' }); }
 
+  // Every book this token unlocks (a bundle token unlocks more than one) — lets
+  // the reader show a "Your bundle" switcher so the buyer reaches all of them.
+  const library = Object.entries(BOOKS)
+    .filter(([, b]) => b.products.indexOf(row.product_id) !== -1)
+    .map(([slug, b]) => ({ slug, title: b.title }));
+
   return json(200, {
     ok: true,
     licensed_to: { name: row.buyer_name || 'Reader', email: row.buyer_email },
+    library,
     book: content,
   });
 };

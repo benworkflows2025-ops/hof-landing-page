@@ -239,12 +239,12 @@ body { font-family: 'DM Sans', system-ui, sans-serif; background: #fdf8ef; color
     <div class="hof-reveal" style="background:linear-gradient(155deg,#0d5b54,#06302b);border-radius:20px;padding:32px 26px 34px;margin-bottom:46px;box-shadow:0 16px 44px rgba(13,91,84,.18)">
       <p class="hof-eyebrow" style="color:#fde290;text-align:center;letter-spacing:.2em">Bundles &amp; Save</p>
       <h3 style="font-family:'Playfair Display',serif;font-size:28px;color:#fdf8ef;margin:6px 0 4px;text-align:center">Get the set &amp; save</h3>
-      <p style="text-align:center;color:#bfe4dd;font-size:14px;margin-bottom:26px">Bundle the titles and unlock them all in your online reader &mdash; <strong style="color:#fde290">launching soon.</strong></p>
+      <p style="text-align:center;color:#bfe4dd;font-size:14px;margin-bottom:26px">Bundle the titles and unlock them all in your online reader. The <strong style="color:#fde290">Book + Workbook</strong> set is available now &mdash; the rest launch soon.</p>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px">
         <article style="background:rgba(255,255,255,.06);border:1px solid rgba(191,228,221,.22);border-radius:14px;padding:22px 20px">
           <h4 style="font-family:'Playfair Display',serif;font-size:19px;color:#fdf8ef;margin-bottom:8px">Book + Workbook</h4>
-          <p style="font-size:13px;color:#bfe4dd;line-height:1.6;margin-bottom:16px;min-height:40px">Guard Your Heart + the Companion Reflection Workbook.</p>
-          <div style="display:flex;align-items:center;justify-content:space-between;gap:8px"><span style="font-family:'Playfair Display',serif;font-size:23px;font-weight:700;color:#fde290">$29.99</span><a href="/connect" style="font-size:12.5px;font-weight:600;color:#fde290;text-decoration:none;white-space:nowrap">Notify me</a></div>
+          <p style="font-size:13px;color:#bfe4dd;line-height:1.6;margin-bottom:16px;min-height:40px">Guard Your Heart + the Companion Reflection Workbook. <strong style="color:#fde290">Both unlock instantly in your reader.</strong></p>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:8px"><span style="font-family:'Playfair Display',serif;font-size:23px;font-weight:700;color:#fde290">$29.99</span><a href="#" class="hof-buy" data-pid="guard-your-heart-bundle" data-name="Guard Your Heart — Book + Workbook Bundle" data-cents="2999" data-desc="Guard Your Heart + the Companion Reflection Workbook — both unlock instantly in your online reader." style="display:inline-flex;align-items:center;gap:6px;background:#fde290;color:#06302b;font-size:12.5px;font-weight:700;padding:9px 17px;border-radius:9999px;text-decoration:none;white-space:nowrap"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Buy now</a></div>
         </article>
         <article style="position:relative;background:rgba(253,226,144,.12);border:2px solid #fde290;border-radius:14px;padding:22px 20px">
           <span style="position:absolute;top:-11px;left:20px;background:#fde290;color:#06302b;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border-radius:9999px">Most popular</span>
@@ -631,6 +631,20 @@ body { font-family: 'DM Sans', system-ui, sans-serif; background: #fdf8ef; color
   document.addEventListener("keydown", function (e) { if (e.key === "Escape" && modal && modal.classList.contains("hof-co-open")) close(); });
 
   document.addEventListener("click", function (e) {
+    // Data-driven buy buttons (bundles, etc.) carry their own product info.
+    var buy = e.target.closest(".hof-buy");
+    if (buy) {
+      e.preventDefault();
+      var bcents = parseInt(buy.getAttribute("data-cents"), 10) || 0;
+      if (!bcents) { notice("This bundle isn't available to purchase yet — get notified and you'll be first to know."); return; }
+      open({
+        name: buy.getAttribute("data-name") || "Hearts On Fire Bundle",
+        description: buy.getAttribute("data-desc") || "",
+        price_cents: bcents, quantity: 1,
+        product_id: buy.getAttribute("data-pid") || ""
+      });
+      return;
+    }
     var btn = e.target.closest(".hof-card__cta");
     if (!btn) return;
     var href = btn.getAttribute("href");
