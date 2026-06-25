@@ -652,5 +652,68 @@ body { font-family: 'DM Sans', system-ui, sans-serif; background: #fdf8ef; color
 </script>
 <!-- ============ /HOF CHECKOUT ============ -->
 
+<!-- ============ PRODUCT QUICK-VIEW MODAL ============ -->
+<style>
+.hof-pm-ov,.hof-pm-ov *{box-sizing:border-box}
+.hof-pm-ov{position:fixed;inset:0;background:rgba(8,16,14,.62);display:none;align-items:center;justify-content:center;z-index:1000;padding:18px;font-family:'DM Sans',system-ui,sans-serif}
+.hof-pm-ov.open{display:flex}
+.hof-pm{background:#fefcf6;max-width:540px;width:100%;max-height:92vh;overflow:auto;border-radius:18px;box-shadow:0 30px 80px rgba(0,0,0,.45);position:relative}
+.hof-pm-x{position:absolute;top:12px;right:12px;width:36px;height:36px;border:none;background:rgba(0,0,0,.4);color:#fff;font-size:22px;line-height:1;border-radius:50%;cursor:pointer;z-index:2}
+.hof-pm-cover{display:flex;justify-content:center;background:#06302b;padding:20px}
+.hof-pm-cover img{height:248px;width:auto;max-width:90%;border-radius:8px;box-shadow:0 14px 36px rgba(0,0,0,.4)}
+.hof-pm-body{padding:24px 26px 26px}
+.hof-pm-badge{display:inline-block;background:#0d5b54;color:#fde290;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;padding:4px 11px;border-radius:9999px;margin-bottom:12px}
+.hof-pm-title{font-family:'Playfair Display',Georgia,serif;font-size:25px;color:#1a1410;line-height:1.2;margin:0 0 6px}
+.hof-pm-sub{color:#0d5b54;font-weight:600;font-size:14px;margin:0 0 14px}
+.hof-pm-desc{color:#3d3027;font-size:15px;line-height:1.7;margin:0 0 22px}
+.hof-pm-foot{display:flex;align-items:center;justify-content:space-between;gap:14px;border-top:1px solid #e6ddcb;padding-top:18px}
+.hof-pm-price{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:#0d5b54}
+.hof-pm-cta{display:inline-block;background:#0d5b54;color:#fefcf6;text-decoration:none;font-weight:700;font-size:14px;padding:13px 26px;border-radius:9999px;cursor:pointer;white-space:nowrap}
+.hof-pm-cta:hover{background:#0a463f}
+.hof-card--product{cursor:pointer}
+</style>
+<div class="hof-pm-ov" id="hofPm" role="dialog" aria-modal="true" aria-label="Product details">
+  <div class="hof-pm">
+    <button class="hof-pm-x" id="hofPmX" aria-label="Close">&times;</button>
+    <div class="hof-pm-cover"><img id="hofPmImg" src="" alt=""></div>
+    <div class="hof-pm-body">
+      <span class="hof-pm-badge" id="hofPmBadge"></span>
+      <h3 class="hof-pm-title" id="hofPmTitle"></h3>
+      <p class="hof-pm-sub" id="hofPmSub"></p>
+      <p class="hof-pm-desc" id="hofPmDesc"></p>
+      <div class="hof-pm-foot"><span class="hof-pm-price" id="hofPmPrice"></span><a class="hof-pm-cta" id="hofPmCta" href="#"></a></div>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var ov=document.getElementById('hofPm');if(!ov)return;
+  var img=document.getElementById('hofPmImg'),badge=document.getElementById('hofPmBadge'),title=document.getElementById('hofPmTitle'),sub=document.getElementById('hofPmSub'),desc=document.getElementById('hofPmDesc'),price=document.getElementById('hofPmPrice'),cta=document.getElementById('hofPmCta');
+  function q(c,s){return c.querySelector(s);}
+  function openPM(card){
+    var im=q(card,'.hof-card__cover-art'),t=q(card,'.hof-card__title'),s=q(card,'.hof-card__subtitle'),de=q(card,'.hof-card__desc'),pr=q(card,'.hof-card__price'),b=q(card,'.hof-card__badge'),cc=q(card,'.hof-card__cta');
+    img.src=im?im.getAttribute('src'):''; img.alt=t?t.textContent:'';
+    badge.textContent=b?b.textContent.trim():''; badge.style.display=b?'inline-block':'none';
+    title.textContent=t?t.textContent:'';
+    sub.textContent=s?s.textContent:''; sub.style.display=s?'block':'none';
+    desc.innerHTML=de?de.innerHTML:'';
+    price.textContent=pr?pr.textContent.trim():'';
+    var href=cc?cc.getAttribute('href'):'#';
+    if(href&&href!=='#'){ cta.textContent='Coming soon — notify me'; cta.setAttribute('href',href); cta.onclick=null; }
+    else { cta.textContent='Get instant access'; cta.setAttribute('href','#'); cta.onclick=function(e){e.preventDefault();closePM();if(cc)cc.click();}; }
+    ov.classList.add('open'); document.body.style.overflow='hidden';
+  }
+  function closePM(){ov.classList.remove('open');document.body.style.overflow='';}
+  document.getElementById('hofPmX').onclick=closePM;
+  ov.addEventListener('click',function(e){if(e.target===ov)closePM();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&ov.classList.contains('open'))closePM();});
+  document.addEventListener('click',function(e){
+    var card=e.target.closest('.hof-card--product');
+    if(!card)return;
+    if(e.target.closest('.hof-card__cta')||e.target.closest('a'))return;
+    openPM(card);
+  });
+})();
+</script>
 </body>
 </html>
