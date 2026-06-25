@@ -29,16 +29,16 @@
   <div class="box">
     <span class="tag">Internal Test</span>
     <h1>Run a free $0 test purchase</h1>
-    <p>This runs the <strong>real</strong> checkout &rarr; payment &rarr; delivery pipeline using a $0 test product, so no card or money is needed. Enter your email and you should receive a download link for the test PDF.</p>
+    <p>This runs the <strong>real</strong> checkout payment delivery pipeline using a $0 test product, so no card or money is needed. Enter your email and you should receive a download link for the test PDF.</p>
     <ol>
-      <li>Click the button &rarr; opens a $0 Stripe checkout</li>
+      <li>Click the button opens a $0 Stripe checkout</li>
       <li>Stripe completes it with no card required</li>
       <li>You land on the thank-you page</li>
       <li>The system emails you a secure download link</li>
     </ol>
     <label for="email">Your email (where the download link is sent)</label>
     <input id="email" type="email" placeholder="you@example.com" autocomplete="email">
-    <button id="run" type="button">Run Free $0 Test Checkout &rarr;</button>
+    <button id="run" type="button">Run Free $0 Test Checkout</button>
     <div id="msg" class="msg"></div>
     <p class="note">Internal QA page — not linked anywhere. Delete this page and the <code>test-product</code> entry before launch.</p>
   </div>
@@ -76,7 +76,7 @@
       })
       .catch(function (e) {
         show("Couldn't start the test checkout: " + (e && e.message ? e.message : "unknown error") + ". If Stripe rejected the $0 amount, see the test-mode fallback.", false);
-        btn.disabled = false; btn.textContent = "Run Free $0 Test Checkout →";
+        btn.disabled = false; btn.textContent = "Run Free $0 Test Checkout";
       });
   });
 })();
