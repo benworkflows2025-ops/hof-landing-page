@@ -123,6 +123,14 @@ body { font-family: 'DM Sans', system-ui, sans-serif; background: #fdf8ef; color
 .hof-root .hof-card__price { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 24px; color: var(--ink-900); }
 .hof-root .hof-card__cta { display: inline-flex; align-items: center; gap: 8px; color: var(--rose-500); font-weight: 600; font-size: 14px; transition: color .3s; }
 .hof-root .hof-card__cta:hover { color: var(--rose-600); }
+/* unified product CTAs — pill buttons (Buy Now / Notify Me) */
+.hof-root .hof-card--product .hof-card__cta{gap:7px;background:#0d5b54;color:#fefcf6;padding:11px 18px;border-radius:9999px;font-weight:700;font-size:13px;border:1.5px solid #0d5b54;transition:background .2s,border-color .2s,color .2s}
+.hof-root .hof-card--product .hof-card__cta:hover{background:#0a463f;border-color:#0a463f;color:#fefcf6}
+.hof-root .hof-card--product .hof-card__cta svg{width:16px;height:16px;flex:none}
+.hof-root .hof-card--product .hof-card__cta--soon{background:transparent;color:#0d5b54;border-color:#cbe4dd}
+.hof-root .hof-card--product .hof-card__cta--soon:hover{background:#fdf8ef;border-color:#0d5b54;color:#0d5b54}
+.hof-root .hof-card--product .hof-card__cta--soon svg{width:15px;height:15px}
+
 .hof-root .hof-card__arrow { transition: transform .4s ease; width: 16px; height: 16px; }
 .hof-root .hof-soon { max-width: 660px; margin: 0 auto; text-align: center; padding: 32px 24px 8px; }
 .hof-root .hof-soon__badge { display: inline-flex; align-items: center; justify-content: center; width: 84px; height: 84px; border-radius: 9999px; background: rgba(var(--rose-rgb),.08); border: 1px solid var(--rose-300); margin-bottom: 24px; }
@@ -262,17 +270,17 @@ body { font-family: 'DM Sans', system-ui, sans-serif; background: #fdf8ef; color
 
       <article class="hof-card hof-card--product hof-reveal">
         <div class="hof-card__cover"><img class="hof-card__cover-art" src="/img/covers/course-becoming-on-purpose.jpg" alt="Becoming On Purpose — video course" loading="lazy"></div>
-        <div class="hof-card__body"><span class="hof-card__badge hof-card__badge--type">Course</span><h3 class="hof-card__title">Becoming On Purpose</h3><p class="hof-card__desc">A multi-session video course on building the version of you you've been called to be — without losing yourself in the becoming.</p><div class="hof-card__foot"><span class="hof-card__price hof-card__price--tbd">Coming Soon</span><a href="/connect" class="hof-card__cta">Get Notified</a></div></div>
+        <div class="hof-card__body"><span class="hof-card__badge hof-card__badge--type">Course</span><h3 class="hof-card__title">Becoming On Purpose</h3><p class="hof-card__desc">A multi-session video course on building the version of you you've been called to be — without losing yourself in the becoming.</p><div class="hof-card__foot"><span class="hof-card__price hof-card__price--tbd">Coming Soon</span><a href="/connect" class="hof-card__cta hof-card__cta--soon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>Notify Me</a></div></div>
       </article>
 
       <article class="hof-card hof-card--product hof-reveal hof-reveal--d1">
         <div class="hof-card__cover"><img class="hof-card__cover-art" src="/img/covers/course-relationship-reset.jpg" alt="The Relationship Reset — video course" loading="lazy"></div>
-        <div class="hof-card__body"><span class="hof-card__badge hof-card__badge--type">Course</span><h3 class="hof-card__title">The Relationship Reset</h3><p class="hof-card__desc">Six weeks of teaching, exercises, and live conversation for couples and families ready to rebuild connection from the inside out.</p><div class="hof-card__foot"><span class="hof-card__price hof-card__price--tbd">Coming Soon</span><a href="/connect" class="hof-card__cta">Get Notified</a></div></div>
+        <div class="hof-card__body"><span class="hof-card__badge hof-card__badge--type">Course</span><h3 class="hof-card__title">The Relationship Reset</h3><p class="hof-card__desc">Six weeks of teaching, exercises, and live conversation for couples and families ready to rebuild connection from the inside out.</p><div class="hof-card__foot"><span class="hof-card__price hof-card__price--tbd">Coming Soon</span><a href="/connect" class="hof-card__cta hof-card__cta--soon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>Notify Me</a></div></div>
       </article>
 
       <article class="hof-card hof-card--product hof-reveal hof-reveal--d2">
         <div class="hof-card__cover"><img class="hof-card__cover-art" src="/img/covers/course-lead-like-you.jpg" alt="Lead Like You — video course" loading="lazy"></div>
-        <div class="hof-card__body"><span class="hof-card__badge hof-card__badge--type">Course</span><h3 class="hof-card__title">Lead Like You</h3><p class="hof-card__desc">An eight-module leadership development course for emerging leaders, entrepreneurs, and ministry team leads.</p><div class="hof-card__foot"><span class="hof-card__price hof-card__price--tbd">Coming Soon</span><a href="/connect" class="hof-card__cta">Get Notified</a></div></div>
+        <div class="hof-card__body"><span class="hof-card__badge hof-card__badge--type">Course</span><h3 class="hof-card__title">Lead Like You</h3><p class="hof-card__desc">An eight-module leadership development course for emerging leaders, entrepreneurs, and ministry team leads.</p><div class="hof-card__foot"><span class="hof-card__price hof-card__price--tbd">Coming Soon</span><a href="/connect" class="hof-card__cta hof-card__cta--soon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>Notify Me</a></div></div>
       </article>
 
     </div>
@@ -529,7 +537,7 @@ body { font-family: 'DM Sans', system-ui, sans-serif; background: #fdf8ef; color
     if (!noticeEl) {
       var o = document.createElement("div");
       o.className = "hof-co-overlay";
-      o.innerHTML = '<div class="hof-co-modal" role="dialog" aria-modal="true" aria-label="Coming soon" style="max-width:400px;text-align:center"><button type="button" class="hof-co-close" aria-label="Close">&times;</button><div style="font-size:38px;line-height:1;margin:2px 0 10px">&#10024;</div><h2 class="hof-co-title" style="text-align:center">Coming Soon</h2><p class="hof-co-notice-text" style="font-size:15px;color:#3d3027;line-height:1.65;margin:10px 0 24px"></p><a href="/connect" class="hof-co-pay" style="text-decoration:none">Get Notified</a></div>';
+      o.innerHTML = '<div class="hof-co-modal" role="dialog" aria-modal="true" aria-label="Coming soon" style="max-width:400px;text-align:center"><button type="button" class="hof-co-close" aria-label="Close">&times;</button><div style="font-size:38px;line-height:1;margin:2px 0 10px">&#10024;</div><h2 class="hof-co-title" style="text-align:center">Coming Soon</h2><p class="hof-co-notice-text" style="font-size:15px;color:#3d3027;line-height:1.65;margin:10px 0 24px"></p><a href="/connect" class="hof-co-pay" style="text-decoration:none">Notify Me</a></div>';
       document.body.appendChild(o);
       noticeEl = o;
       var hideN = function () { noticeEl.classList.remove("hof-co-open"); document.body.style.overflow = ""; };
