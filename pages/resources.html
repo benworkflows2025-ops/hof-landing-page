@@ -671,6 +671,12 @@ body { font-family: 'DM Sans', system-ui, sans-serif; background: #fdf8ef; color
 .hof-pm-cta{display:inline-block;background:#0d5b54;color:#fefcf6;text-decoration:none;font-weight:700;font-size:14px;padding:13px 26px;border-radius:9999px;cursor:pointer;white-space:nowrap}
 .hof-pm-cta:hover{background:#0a463f}
 .hof-card--product{cursor:pointer}
+.hof-card--product .hof-card__desc{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.hof-pm-feat{margin:2px 0 20px;display:flex;flex-direction:column;gap:9px}
+.hof-pm-feat-h{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#0d5b54;margin-bottom:2px}
+.hof-pm-feat-row{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:#3d3027;line-height:1.5}
+.hof-pm-feat-row b{color:#0d5b54;font-weight:700;flex:none}
+.hof-pm-hint{font-size:12px;color:#9a8a72;text-align:center;padding:4px 0 14px}
 </style>
 <div class="hof-pm-ov" id="hofPm" role="dialog" aria-modal="true" aria-label="Product details">
   <div class="hof-pm">
@@ -681,6 +687,7 @@ body { font-family: 'DM Sans', system-ui, sans-serif; background: #fdf8ef; color
       <h3 class="hof-pm-title" id="hofPmTitle"></h3>
       <p class="hof-pm-sub" id="hofPmSub"></p>
       <p class="hof-pm-desc" id="hofPmDesc"></p>
+      <div class="hof-pm-feat" id="hofPmFeat"></div>
       <div class="hof-pm-foot"><span class="hof-pm-price" id="hofPmPrice"></span><a class="hof-pm-cta" id="hofPmCta" href="#"></a></div>
     </div>
   </div>
@@ -688,7 +695,7 @@ body { font-family: 'DM Sans', system-ui, sans-serif; background: #fdf8ef; color
 <script>
 (function(){
   var ov=document.getElementById('hofPm');if(!ov)return;
-  var img=document.getElementById('hofPmImg'),badge=document.getElementById('hofPmBadge'),title=document.getElementById('hofPmTitle'),sub=document.getElementById('hofPmSub'),desc=document.getElementById('hofPmDesc'),price=document.getElementById('hofPmPrice'),cta=document.getElementById('hofPmCta');
+  var img=document.getElementById('hofPmImg'),badge=document.getElementById('hofPmBadge'),title=document.getElementById('hofPmTitle'),sub=document.getElementById('hofPmSub'),desc=document.getElementById('hofPmDesc'),price=document.getElementById('hofPmPrice'),cta=document.getElementById('hofPmCta'),feat=document.getElementById('hofPmFeat');
   function q(c,s){return c.querySelector(s);}
   function openPM(card){
     var im=q(card,'.hof-card__cover-art'),t=q(card,'.hof-card__title'),s=q(card,'.hof-card__subtitle'),de=q(card,'.hof-card__desc'),pr=q(card,'.hof-card__price'),b=q(card,'.hof-card__badge'),cc=q(card,'.hof-card__cta');
@@ -699,8 +706,10 @@ body { font-family: 'DM Sans', system-ui, sans-serif; background: #fdf8ef; color
     desc.innerHTML=de?de.innerHTML:'';
     price.textContent=pr?pr.textContent.trim():'';
     var href=cc?cc.getAttribute('href'):'#';
-    if(href&&href!=='#'){ cta.textContent='Coming soon — notify me'; cta.setAttribute('href',href); cta.onclick=null; }
-    else { cta.textContent='Get instant access'; cta.setAttribute('href','#'); cta.onclick=function(e){e.preventDefault();closePM();if(cc)cc.click();}; }
+    if(href&&href!=='#'){ cta.textContent='Coming soon — notify me'; cta.setAttribute('href',href); cta.onclick=null;
+      feat.innerHTML='<div class="hof-pm-feat-h">When it launches</div><div class="hof-pm-feat-row"><b>&#9733;</b><span>Read instantly in your online reader &mdash; no download needed.</span></div><div class="hof-pm-feat-row"><b>&#9733;</b><span>Get a personal, name-stamped PDF copy.</span></div><div class="hof-pm-feat-row"><b>&#9733;</b><span>Yours to keep &mdash; revisit anytime.</span></div>'; }
+    else { cta.textContent='Get instant access'; cta.setAttribute('href','#'); cta.onclick=function(e){e.preventDefault();closePM();if(cc)cc.click();};
+      feat.innerHTML='<div class="hof-pm-feat-h">What you get</div><div class="hof-pm-feat-row"><b>&#10003;</b><span>Read instantly in your online reader (no app, works on any device).</span></div><div class="hof-pm-feat-row"><b>&#10003;</b><span>Download a personal, name-stamped PDF copy.</span></div><div class="hof-pm-feat-row"><b>&#10003;</b><span>Yours to keep &mdash; pick up right where you left off, anytime.</span></div>'; }
     ov.classList.add('open'); document.body.style.overflow='hidden';
   }
   function closePM(){ov.classList.remove('open');document.body.style.overflow='';}
