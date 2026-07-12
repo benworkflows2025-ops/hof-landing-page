@@ -28,6 +28,7 @@ const PRODUCTS = {
   'guard-your-heart-book': { title: 'Guard Your Heart', key: 'hof-pdfs/guard-your-heart-book.pdf', reader: true, slug: 'guard-your-heart' }, // digital reader only — no PDF
   'companion-workbook':    { title: 'Guard Your Heart: Companion Reflection Workbook', key: 'hof-pdfs/companion-workbook.pdf', reader: true, slug: 'companion-workbook' }, // digital reader only — no PDF
   'guard-your-heart-bundle': { title: 'Guard Your Heart — Book + Workbook Bundle', reader: true, slug: 'guard-your-heart', bundle: ['guard-your-heart', 'companion-workbook'] }, // one purchase unlocks both readers
+  'participant-guide':     { title: 'Guard Your Heart: Participant Guide', reader: true, slug: 'participant-guide' }, // digital reader only
   'small-group-guide':     { title: 'Small Group Discussion Guide', key: 'hof-pdfs/small-group-guide.pdf' },
   'thirty-day-journal':    { title: '30-Day Guard Your Heart Journal', key: 'hof-pdfs/thirty-day-journal.pdf' },
   'test-product':          { title: 'HOF Test Product', key: 'hof-pdfs/test-product.pdf' }, // internal $0 system test — remove before launch

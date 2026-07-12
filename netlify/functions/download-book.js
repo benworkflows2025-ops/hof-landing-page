@@ -17,6 +17,7 @@ const PDF_BUCKET = 'hof-pdfs';
 const BOOKS = {
   'guard-your-heart':   { file: 'guard-your-heart-green.pdf',   products: ['guard-your-heart-book', 'guard-your-heart-bundle'], name: 'Guard Your Heart.pdf' },
   'companion-workbook': { file: 'companion-workbook-green.pdf', products: ['companion-workbook', 'guard-your-heart-bundle'],     name: 'Guard Your Heart - Companion Workbook.pdf' },
+  'participant-guide':  { file: 'participant-guide-green.pdf',  products: ['participant-guide'],  name: 'Guard Your Heart - Participant Guide.pdf' },
 };
 const norm = (s) => String(s || '').trim().toLowerCase();
 
