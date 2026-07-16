@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" class="hof-root">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your Heart Stewardship Report | Hearts On Fire</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,400;1,500&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--cream-50:#fefcf6;--cream-100:#fdf8ef;--cream-200:#dbeeea;--cream-300:#cbe4dd;
+    --rose-200:#bfe4dd;--rose-400:#80c4ba;--rose-500:#0d5b54;--rose-600:#0a463f;--rose-700:#06302b;--rose-rgb:13,91,84;
+    --ink-300:#a39487;--ink-400:#7d6b5e;--ink-500:#5a4a3e;--ink-700:#2a201a;--ink-800:#1a1410;--ink-900:#0d0a07;--gold:#a06d05;--gold-mid:#e0a91d;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'DM Sans',system-ui,sans-serif;color:var(--ink-800);background:var(--cream-100);line-height:1.6}
+  .hof-display{font-family:'Playfair Display',Georgia,serif}
+  .wrap{max-width:720px;margin:0 auto;padding:0 22px}
+  header.brand{text-align:center;padding:26px 0 6px}
+  header.brand .name{font-family:'Playfair Display',serif;font-weight:700;font-size:17px}
+  header.brand .name small{display:block;font-weight:400;font-size:9.5px;letter-spacing:.32em;color:var(--rose-500);text-transform:uppercase;margin-top:2px}
+  main{padding:14px 0 70px}
+  .card{background:var(--cream-50);border:1px solid var(--cream-200);border-radius:20px;box-shadow:0 24px 60px -34px rgba(var(--rose-rgb),.35);padding:38px 34px}
+  .eyebrow{font-family:'Playfair Display',serif;font-style:italic;color:var(--rose-500);font-size:16px;margin-bottom:10px}
+  h1.title{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(28px,6vw,40px);line-height:1.1;letter-spacing:-.02em;color:var(--ink-900);margin-bottom:8px}
+  .sub{color:var(--ink-500);font-size:16px;margin-bottom:6px}
+  .sec{padding:26px 0;border-top:1px solid var(--cream-200)}
+  .sec:first-of-type{border-top:0}
+  .sec__n{font-family:'Playfair Display',serif;font-style:italic;color:var(--rose-400);font-size:14px;margin-bottom:4px}
+  .sec h2{font-family:'Playfair Display',serif;font-weight:700;font-size:24px;color:var(--ink-900);margin-bottom:12px;line-height:1.2}
+  .sec p{color:var(--ink-700);font-size:16px;margin-bottom:12px}
+  .pill{display:inline-flex;align-items:center;background:rgba(var(--rose-rgb),.07);border:1px solid var(--rose-200);color:var(--rose-600);border-radius:99px;padding:7px 15px;font-size:14px;font-weight:600;margin:4px 8px 4px 0}
+  .dom{margin:14px 0}
+  .dom__top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:5px}
+  .dom__name{font-weight:600;color:var(--ink-800)}
+  .dom__score{font-size:13px;color:var(--ink-400)}
+  .bar{height:8px;background:var(--cream-200);border-radius:99px;overflow:hidden}
+  .bar__fill{height:100%;background:linear-gradient(90deg,var(--rose-400),var(--rose-500));border-radius:99px}
+  .steps{counter-reset:s;margin-top:6px}
+  .step{position:relative;padding:14px 0 14px 46px;border-top:1px solid var(--cream-200)}
+  .step:first-child{border-top:0}
+  .step::before{counter-increment:s;content:counter(s);position:absolute;left:0;top:12px;width:32px;height:32px;border-radius:50%;background:var(--rose-500);color:#fff;display:grid;place-items:center;font-weight:700;font-size:15px}
+  .banner{background:#fff8e6;border:1px dashed var(--gold-mid);border-radius:14px;padding:18px 20px;color:var(--gold);font-size:14.5px;line-height:1.55;margin:18px 0}
+  .muted{color:var(--ink-400);font-size:13px}
+  .disc{margin-top:8px}
+  .disc p{font-size:12px;color:var(--ink-400)}
+  #loading,#err{text-align:center;padding:50px 0;color:var(--ink-500)}
+  @media print{ body{background:#fff} .card{box-shadow:none;border:0} header.brand{padding-top:0} }
+  @media (max-width:520px){ .card{padding:28px 20px} }
+</style>
+</head>
+<body>
+<header class="brand"><span class="name hof-display">Hearts On Fire<small>Network</small></span></header>
+<main><div class="wrap"><div class="card">
+  <div id="loading">Loading your report...</div>
+  <div id="err" hidden></div>
+  <div id="report" hidden></div>
+</div></div></main>
+
+<script>
+(function(){
+  'use strict';
+  var $ = function(id){ return document.getElementById(id); };
+  var esc = function(s){ var d=document.createElement('div'); d.textContent = s==null?'':String(s); return d.innerHTML; };
+  var paras = function(t){ return String(t||'').split(/\n\s*\n/).map(function(p){ return '<p>'+esc(p).replace(/\n/g,'<br>')+'</p>'; }).join(''); };
+  var id = (new URLSearchParams(location.search)).get('id');
+
+  if(!id){ fail('This report link is missing its ID.'); return; }
+
+  fetch('/.netlify/functions/checkup-report?id='+encodeURIComponent(id))
+    .then(function(r){ return r.json().then(function(j){ return {ok:r.ok, j:j}; }); })
+    .then(function(res){ if(!res.ok){ return fail(res.j.error==='not_found' ? 'We could not find that report.' : 'We could not load your report right now.'); } render(res.j); })
+    .catch(function(){ fail('We could not load your report right now. Please try again in a moment.'); });
+
+  function fail(msg){ $('loading').hidden=true; $('err').hidden=false; $('err').innerHTML = '<p class="eyebrow">Report</p><h1 class="title hof-display" style="font-size:28px">'+esc(msg)+'</h1>'; }
+
+  function render(d){
+    $('loading').hidden = true;
+    var stageName = d.stage_name || ('Stage ' + d.stage);
+    var html = '<p class="eyebrow">Your Heart Stewardship Report</p>';
+    html += '<h1 class="title hof-display">'+esc(stageName)+'</h1>';
+
+    if(!d.ready){
+      // Approved written report not loaded yet: show the real structural result, no placeholder prose.
+      html += '<p class="sub">Here is where you landed. Your full written report is being finalized and will be ready shortly.</p>';
+      html += '<div class="banner">The complete written report for your stage is being prepared by Hearts On Fire. Your result below is final and accurate. We will notify you when the full reflection is ready to read.</div>';
+      html += areaBlock('Your priority area(s) to tend', d.priority_areas);
+      html += areaBlock('A current strength to build on', d.strength_areas);
+      $('report').innerHTML = html; $('report').hidden = false; return;
+    }
+
+    d.sections.forEach(function(s){
+      html += '<div class="sec"><div class="sec__n">'+s.n+'</div><h2 class="hof-display">'+esc(s.title)+'</h2>';
+      if(s.body){ html += paras(s.body); }
+      if(s.tieLanguage){ html += paras(s.tieLanguage); }
+      if(s.items && s.n===3){ s.items.forEach(function(it){
+        var pct = Math.round(((it.score||0)/15)*100);
+        html += '<div class="dom"><div class="dom__top"><span class="dom__name">'+esc(it.domain)+'</span><span class="dom__score">'+esc(it.score)+' / 15</span></div><div class="bar"><div class="bar__fill" style="width:'+pct+'%"></div></div>'+(it.text?'<p style="margin-top:8px">'+esc(it.text)+'</p>':'')+'</div>';
+      }); }
+      else if(s.items){ s.items.forEach(function(it){ html += '<p><strong>'+esc(it.domain)+'.</strong> '+esc(it.text)+'</p>'; }); }
+      if(s.steps){ html += '<div class="steps">'; s.steps.forEach(function(t){ html += '<div class="step">'+paras(t)+'</div>'; }); html += '</div>'; }
+      html += '</div>';
+    });
+    $('report').innerHTML = html; $('report').hidden = false;
+  }
+
+  function areaBlock(label, areas){
+    if(!areas || !areas.length) return '';
+    return '<div class="sec"><h2 class="hof-display" style="font-size:20px">'+esc(label)+'</h2>'+
+      areas.map(function(a){ return '<span class="pill">'+esc(a)+'</span>'; }).join('')+'</div>';
+  }
+})();
+</script>
+</body>
+</html>
