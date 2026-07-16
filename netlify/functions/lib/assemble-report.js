@@ -6,6 +6,14 @@
  */
 'use strict';
 const DKEYS = ['D1', 'D2', 'D3', 'D4', 'D5', 'D6', 'D7'];
+// Fixed structural domain labels (defined in the spec, not respondent "copy"),
+// used as a fallback for the domain NAME when a content pack is not yet loaded.
+const DEFAULT_DOMAIN_NAMES = {
+  D1: 'Heart Awareness', D2: 'Influence and Access', D3: 'Thoughts, Beliefs and Internal Agreement',
+  D4: 'Addressing What Needs Attention', D5: 'Relationships, Trust and Boundaries',
+  D6: 'Ownership and Faithful Response', D7: 'Ongoing Heart Stewardship',
+};
+const domName = (dom, k) => (dom[k] && dom[k].name) || DEFAULT_DOMAIN_NAMES[k] || k;
 
 function pick(result, upper, lower) {
   return result[upper] !== undefined ? result[upper] : result[lower];
@@ -45,11 +53,11 @@ function assembleReport(result, content) {
     { n: 1, title: 'Your Heart Stewardship Stage', body: S.name || '' },
     { n: 2, title: 'What This Stage May Suggest', body: S.may_suggest || '' },
     { n: 3, title: 'Your Seven-Domain Profile',
-      items: DKEYS.map((k) => ({ domain: (dom[k] && dom[k].name) || k, score: domainScore(k), text: (dom[k] && dom[k].profile) || '' })) },
+      items: DKEYS.map((k) => ({ domain: domName(dom, k), score: domainScore(k), text: (dom[k] && dom[k].profile) || '' })) },
     { n: 4, title: 'Your Relative Stewardship Strength(s)', tieLanguage: strengthTieLang,
-      items: strengthDomains.map((k) => ({ domain: (dom[k] && dom[k].name) || k, text: (dom[k] && dom[k].strength_line) || '' })) },
+      items: strengthDomains.map((k) => ({ domain: domName(dom, k), text: (dom[k] && dom[k].strength_line) || '' })) },
     { n: 5, title: 'Your Priority Attention Area(s)', tieLanguage: priorityTieLang,
-      items: priorityDomains.map((k) => ({ domain: (dom[k] && dom[k].name) || k, text: (dom[k] && dom[k].priority_next_step) || '' })) },
+      items: priorityDomains.map((k) => ({ domain: domName(dom, k), text: (dom[k] && dom[k].priority_next_step) || '' })) },
     { n: 6, title: 'What Your Results Do and Do Not Mean', body: content.meaning || '' },
     { n: 7, title: 'Three Recommended Next Steps', steps: [step1, step2, step3] },
     { n: 8, title: 'Scripture-Grounded Reflection', body: content.scripture || '' },
@@ -91,7 +99,7 @@ function snapshotFrom(result, content) {
     stage_name: S.name || '',
     stage_snapshot: S.snapshot || '',           // approved 40-70 word abbreviated interpretation
     priority_type: priorityType,
-    priority_areas: priorityDomains.map((k) => (dom[k] && dom[k].name) || k),
+    priority_areas: priorityDomains.map((k) => domName(dom, k)),
     priority_tie_language: priorityType === 'TWO_TIE' ? (tie.priority_two || '') : (priorityType === 'MULTI_TIE' ? (tie.priority_multi || '') : ''),
     email_invitation: content.email_invitation || '',
     // NOTE: no product recommendation in the snapshot (spec S11).
