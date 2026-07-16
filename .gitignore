@@ -18,7 +18,15 @@ hof-chat-workflow.json
 data/
 generate_book.py
 
+# ===== n8n workflows + credential files — CONTAIN LIVE TOKENS, never commit =====
+*SPS*.json
+*SES*.json
+Facebook HOF Business Agent*.json
+OpenRouter API.txt
+*.txt
+
 # OS / editor cruft
 .DS_Store
 Thumbs.db
 .vscode/
+hof-veo-clips/

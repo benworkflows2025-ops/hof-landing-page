@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en" class="hof-root">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Heart Stewardship Checkup | Hearts On Fire</title>
+<meta name="description" content="A free, private reflection tool to help you notice the condition of your heart. Not a test, not a diagnosis.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,400;1,500&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream-50:#fefcf6; --cream-100:#fdf8ef; --cream-200:#dbeeea; --cream-300:#cbe4dd;
+    --rose-200:#bfe4dd; --rose-400:#80c4ba; --rose-500:#0d5b54; --rose-600:#0a463f; --rose-700:#06302b; --rose-rgb:13,91,84;
+    --ink-300:#a39487; --ink-400:#7d6b5e; --ink-500:#5a4a3e; --ink-700:#2a201a; --ink-800:#1a1410; --ink-900:#0d0a07;
+    --gold-mid:#e0a91d; --gold-deep:#a06d05;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    font-family:'DM Sans',system-ui,sans-serif; color:var(--ink-800);
+    background:var(--cream-100); line-height:1.55; min-height:100vh;
+    display:flex; flex-direction:column;
+    background-image:radial-gradient(1200px 600px at 50% -200px, rgba(var(--rose-rgb),.06), transparent 70%);
+  }
+  .hof-display{font-family:'Playfair Display',Georgia,serif}
+  .wrap{width:100%; max-width:680px; margin:0 auto; padding:0 20px}
+  /* header */
+  header.brand{padding:22px 0 8px; text-align:center}
+  .brand a{display:inline-flex; align-items:center; gap:9px; text-decoration:none; color:var(--ink-800)}
+  .flame{width:26px;height:26px;flex:0 0 auto}
+  .brand .name{font-family:'Playfair Display',serif; font-weight:700; font-size:17px; letter-spacing:-.01em}
+  .brand .name small{display:block; font-weight:400; font-size:9.5px; letter-spacing:.32em; color:var(--rose-500); text-transform:uppercase; margin-top:1px}
+  main{flex:1; display:flex; align-items:flex-start; padding:12px 0 64px}
+  .card{width:100%; background:var(--cream-50); border:1px solid var(--cream-200); border-radius:20px;
+    box-shadow:0 24px 60px -32px rgba(var(--rose-rgb),.35), 0 2px 0 rgba(255,255,255,.6) inset; padding:34px 30px 30px}
+  /* progress */
+  .progress{margin-bottom:26px}
+  .progress__meta{display:flex; justify-content:space-between; font-size:12.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-400); margin-bottom:8px}
+  .progress__bar{height:6px; background:var(--cream-200); border-radius:99px; overflow:hidden}
+  .progress__fill{height:100%; width:0; background:linear-gradient(90deg,var(--rose-400),var(--rose-500)); border-radius:99px; transition:width .35s cubic-bezier(.2,.7,.2,1)}
+  .eyebrow{font-family:'Playfair Display',serif; font-style:italic; color:var(--rose-500); font-size:16px; margin-bottom:12px}
+  h1.q-title{font-family:'Playfair Display',serif; font-weight:700; font-size:clamp(26px,6vw,38px); line-height:1.08; letter-spacing:-.02em; color:var(--ink-900); margin-bottom:18px}
+  .lead{font-size:16.5px; color:var(--ink-500); margin-bottom:14px}
+  .meta-row{display:flex; flex-wrap:wrap; gap:10px 22px; margin:22px 0 6px; font-size:14px; color:var(--ink-500)}
+  .meta-row b{color:var(--ink-800); font-weight:600}
+  .note{font-size:13px; color:var(--ink-400); background:var(--cream-100); border:1px solid var(--cream-200); border-radius:12px; padding:12px 14px; margin-top:22px}
+  /* question */
+  fieldset{border:0}
+  legend.q-text{font-family:'Playfair Display',serif; font-weight:600; font-size:clamp(20px,4.6vw,25px); line-height:1.28; color:var(--ink-900); margin-bottom:22px}
+  .scale{display:flex; flex-direction:column; gap:10px}
+  .opt{position:relative}
+  .opt input{position:absolute; opacity:0; width:1px; height:1px}
+  .opt label{display:flex; align-items:center; gap:14px; cursor:pointer; padding:14px 16px; border:1.5px solid var(--cream-300);
+    border-radius:14px; background:var(--cream-50); transition:border-color .15s, background .15s, box-shadow .15s; min-height:56px}
+  .opt .dot{width:24px;height:24px;flex:0 0 auto;border-radius:50%;border:2px solid var(--rose-400); display:grid; place-items:center; transition:.15s}
+  .opt .dot::after{content:''; width:11px;height:11px;border-radius:50%; background:var(--rose-500); transform:scale(0); transition:transform .15s}
+  .opt .num{font-weight:700; color:var(--rose-600); font-size:15px; width:16px}
+  .opt .txt{font-size:15.5px; color:var(--ink-700)}
+  .opt input:checked + label{border-color:var(--rose-500); background:rgba(var(--rose-rgb),.055); box-shadow:0 6px 18px -12px rgba(var(--rose-rgb),.6)}
+  .opt input:checked + label .dot::after{transform:scale(1)}
+  .opt input:focus-visible + label{outline:3px solid var(--rose-400); outline-offset:2px}
+  .opt label:hover{border-color:var(--rose-400)}
+  /* checkboxes (history) */
+  .opt.check .dot{border-radius:6px}
+  .opt.check .dot::after{border-radius:2px}
+  /* nav buttons */
+  .nav{display:flex; gap:12px; margin-top:28px; align-items:center}
+  .btn{font-family:'DM Sans',sans-serif; font-weight:600; font-size:16px; border-radius:99px; padding:15px 30px; cursor:pointer; border:1.5px solid transparent; transition:.15s; letter-spacing:.01em}
+  .btn:focus-visible{outline:3px solid var(--rose-400); outline-offset:2px}
+  .btn--primary{background:var(--rose-500); color:#fff; flex:1}
+  .btn--primary:hover{background:var(--rose-600)}
+  .btn--primary:disabled{background:var(--cream-300); color:var(--ink-300); cursor:not-allowed}
+  .btn--ghost{background:transparent; color:var(--ink-500); border-color:var(--cream-300); padding:15px 22px}
+  .btn--ghost:hover{border-color:var(--rose-400); color:var(--rose-600)}
+  .btn--full{width:100%}
+  /* snapshot */
+  .stage-badge{display:inline-block; font-family:'Playfair Display',serif; font-style:italic; color:var(--rose-500); font-size:15px; margin-bottom:10px}
+  .pill{display:inline-flex; align-items:center; gap:8px; background:rgba(var(--rose-rgb),.07); border:1px solid var(--rose-200); color:var(--rose-600); border-radius:99px; padding:7px 15px; font-size:14px; font-weight:600; margin:4px 6px 4px 0}
+  .pending{font-size:12px; color:var(--gold-deep); background:#fff8e6; border:1px dashed var(--gold-mid); border-radius:10px; padding:9px 12px; margin:14px 0}
+  .divider{height:1px; background:var(--cream-200); margin:26px 0}
+  .field{margin:16px 0}
+  .field label{display:block; font-weight:600; font-size:14px; margin-bottom:7px; color:var(--ink-700)}
+  .field input[type=email]{width:100%; font-family:inherit; font-size:16px; padding:14px 16px; border:1.5px solid var(--cream-300); border-radius:12px; background:var(--cream-50); color:var(--ink-800)}
+  .field input[type=email]:focus-visible{outline:3px solid var(--rose-400); outline-offset:1px; border-color:var(--rose-500)}
+  .consent{display:flex; gap:11px; align-items:flex-start; font-size:13.5px; color:var(--ink-500); margin:14px 0 20px}
+  .consent input{margin-top:3px; width:18px;height:18px; accent-color:var(--rose-500); flex:0 0 auto}
+  .err{color:#a3341d; font-size:14px; margin-top:14px; min-height:1px}
+  /* footer */
+  footer.disc{padding:0 0 40px; text-align:center}
+  footer.disc p{max-width:600px; margin:0 auto; font-size:11.5px; color:var(--ink-400); line-height:1.6}
+  [hidden]{display:none !important}
+  .visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  @media (max-width:520px){ .card{padding:26px 20px 24px; border-radius:16px} .nav{flex-direction:row} }
+  @media (prefers-reduced-motion:reduce){ *{transition:none !important} }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="flame" viewBox="0 0 24 24"><path fill="var(--gold-mid)" d="M12 1.6c.9 2.9-.7 4.6-2.3 6.2C8 9.5 6.4 11.2 6.4 14a5.6 5.6 0 0 0 11.2.3c0-2-.9-3.3-1.8-4.6-.5.9-1.2 1.4-2 1.6.8-2 .2-4-1-5.6C11.7 4.2 12.4 2.9 12 1.6Z"/><path fill="var(--gold-deep)" d="M12 21.8a3.2 3.2 0 0 0 3.2-3.2c0-1.6-1.1-2.6-1.9-3.6-.4.7-.9 1-1.5 1.1.5-1.4 0-2.7-.9-3.6-.9 1.3-2.2 2.4-2.2 4.4A3.3 3.3 0 0 0 12 21.8Z"/></symbol></svg>
+
+<header class="brand">
+  <a href="/" aria-label="Hearts On Fire home">
+    <svg class="flame" aria-hidden="true"><use href="#flame"></use></svg>
+    <span class="name">Hearts On Fire<small>Network</small></span>
+  </a>
+</header>
+
+<main>
+  <div class="wrap">
+    <div class="card" role="region" aria-live="polite" aria-atomic="false">
+
+      <!-- progress (hidden on intro/result) -->
+      <div class="progress" id="progress" hidden>
+        <div class="progress__meta"><span id="progressLabel">Question 1 of 21</span><span id="progressPct">5%</span></div>
+        <div class="progress__bar"><div class="progress__fill" id="progressFill"></div></div>
+      </div>
+
+      <!-- INTRO -->
+      <section id="screen-intro">
+        <p class="eyebrow">A quiet moment with yourself</p>
+        <h1 class="q-title hof-display">The Heart Stewardship Checkup</h1>
+        <p class="lead">A short, private reflection to help you notice the condition of your heart, the place everything else in your life grows from.</p>
+        <p class="lead">There are no right or wrong answers. This is a personal reflection tool. It is not a test, a diagnosis, or a measure of your worth.</p>
+        <div class="meta-row">
+          <span><b>21</b> short questions</span>
+          <span><b>5 to 7</b> minutes</span>
+          <span><b>Private</b> and honest</span>
+        </div>
+        <div class="nav">
+          <button class="btn btn--primary btn--full" id="btnBegin">Begin the checkup</button>
+        </div>
+        <p class="note">You will answer honestly on a simple 1 to 5 scale. All 21 questions are needed for an accurate result. At the end you will see a snapshot of where you are.</p>
+      </section>
+
+      <!-- QUESTION (rendered dynamically) -->
+      <section id="screen-question" hidden>
+        <form id="qForm">
+          <fieldset>
+            <legend class="q-text" id="qText"></legend>
+            <div class="scale" id="qScale" role="radiogroup" aria-labelledby="qText"></div>
+          </fieldset>
+          <p class="err" id="qErr" role="alert" aria-live="assertive"></p>
+          <div class="nav">
+            <button type="button" class="btn btn--ghost" id="btnBack">Back</button>
+            <button type="submit" class="btn btn--primary" id="btnNext" disabled>Next</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- PRODUCT HISTORY -->
+      <section id="screen-history" hidden>
+        <p class="eyebrow">One last thing</p>
+        <legend class="q-text hof-display" id="histText">Which Guard Your Heart resources have you already used?</legend>
+        <p class="lead" style="margin-top:-6px;font-size:15px">Select all that apply. This does not affect your score, it just helps point you to the right next step.</p>
+        <div class="scale" id="histScale"></div>
+        <p class="err" id="histErr" role="alert" aria-live="assertive"></p>
+        <div class="nav">
+          <button type="button" class="btn btn--ghost" id="btnHistBack">Back</button>
+          <button type="button" class="btn btn--primary" id="btnHistNext" disabled>See my snapshot</button>
+        </div>
+      </section>
+
+      <!-- LOADING -->
+      <section id="screen-loading" hidden aria-busy="true">
+        <p class="eyebrow">Reflecting on your responses</p>
+        <h1 class="q-title hof-display">Preparing your snapshot...</h1>
+        <p class="lead">One moment while we bring your results together.</p>
+      </section>
+
+      <!-- SNAPSHOT -->
+      <section id="screen-snapshot" hidden>
+        <p class="stage-badge" id="snapStageBadge">Your Heart Stewardship Snapshot</p>
+        <h1 class="q-title hof-display" id="snapStageName">Stage</h1>
+        <div class="pending" id="snapCopyPending">Final stage reflection wording is pending LaNita's approved content. The result below is calculated and correct; only the descriptive text is a placeholder.</div>
+        <p class="lead" id="snapStageText"></p>
+        <div class="divider"></div>
+        <p style="font-weight:600; margin-bottom:8px" id="snapPriorityLabel">Your priority area to tend right now:</p>
+        <div id="snapPriority"></div>
+        <p style="font-weight:600; margin:20px 0 8px" id="snapStrengthLabel">A current strength to build on:</p>
+        <div id="snapStrength"></div>
+        <div class="divider"></div>
+        <h2 class="hof-display" style="font-size:22px;color:var(--ink-900);margin-bottom:8px">Want your full report?</h2>
+        <p class="lead" style="font-size:15px">Enter your email and we will send your complete personalized report, your stage, all seven areas, your next steps, and where to begin.</p>
+        <form id="emailForm">
+          <div class="field">
+            <label for="email">Email address</label>
+            <input type="email" id="email" name="email" required autocomplete="email" placeholder="you@example.com">
+          </div>
+          <label class="consent"><input type="checkbox" id="consent" required><span id="consentText">Yes, send my full report and occasional Hearts On Fire encouragement. I can unsubscribe anytime. <em>(Final consent wording pending LaNita's approved text.)</em></span></label>
+          <p class="err" id="emailErr" role="alert" aria-live="assertive"></p>
+          <button type="submit" class="btn btn--primary btn--full" id="btnGetReport">GET MY FULL REPORT</button>
+        </form>
+      </section>
+
+      <!-- REPORT CONFIRMATION -->
+      <section id="screen-report" hidden>
+        <p class="eyebrow">Your report is on its way</p>
+        <h1 class="q-title hof-display">Check your inbox</h1>
+        <p class="lead">Thank you. Your full Heart Stewardship report is being sent to <b id="reportEmail"></b> now. If you do not see it in a few minutes, check your spam or promotions folder.</p>
+        <div class="pending">The full report content and the recommended starting point are assembled from LaNita's approved wording (pending her results document). The delivery is wired through your email system.</div>
+      </section>
+
+      <!-- ERROR -->
+      <section id="screen-error" hidden>
+        <p class="eyebrow">Something needs another look</p>
+        <h1 class="q-title hof-display">We could not complete your checkup</h1>
+        <p class="lead" id="errText">To keep your result accurate, every question needs a valid answer. Please try again.</p>
+        <div class="nav"><button class="btn btn--primary btn--full" id="btnRestart">Start over</button></div>
+      </section>
+
+    </div>
+  </div>
+</main>
+
+<footer class="disc">
+  <p>The Heart Stewardship Checkup is an educational and spiritual reflection tool. It is not a psychological, clinical, or medical assessment, a diagnosis, or a determination of anyone's condition or worth, and it is not a substitute for professional care. Full disclaimer wording is provided by Hearts On Fire. &copy; Hearts On Fire Network.</p>
+</footer>
+
+<script>
+(function(){
+  'use strict';
+  var SCORE_URL = '/.netlify/functions/checkup-score';
+  var EMAIL_URL = '/.netlify/functions/checkup-email';
+
+  // 21 controlled items, verbatim, in locked order.
+  var QUESTIONS = [
+    "I intentionally pay attention to what is happening within me, including my thoughts, emotions, motives, and reactions.",
+    "I notice when similar situations or experiences repeatedly produce the same kinds of thoughts, emotions, or reactions within me.",
+    "I notice when what is happening within me is influencing how I make decisions, respond to situations, or relate to other people.",
+    "I pay attention to how the people, voices, environments, and content I regularly engage with are influencing my thoughts, attitudes, values, or responses.",
+    "I use discernment when deciding how much access or influence people, voices, environments, or content should have in my life.",
+    "When I recognize that something is repeatedly influencing me in an unhealthy way, I make appropriate changes rather than continuing to allow it to affect me in the same way.",
+    "I notice when the same thoughts or messages repeatedly run through my mind.",
+    "I examine whether the thoughts and beliefs I repeatedly accept are true rather than automatically assuming they are accurate.",
+    "When I recognize that a recurring thought or belief is not true or healthy, I intentionally question it rather than continuing to accept it as true.",
+    "I honestly acknowledge when something within me needs attention rather than minimizing, dismissing, or repeatedly avoiding it.",
+    "I remain willing to face unresolved issues or unhealthy patterns that need attention rather than repeatedly avoiding them.",
+    "When something I am facing requires support beyond what I can responsibly address alone, I am willing to receive appropriate help.",
+    "I allow trust and relational closeness to develop over time as I observe consistency, character, and behavior.",
+    "I practice healthy boundaries by respecting both my own appropriate limits and the appropriate limits of others.",
+    "I am willing to receive appropriate feedback and examine how my conduct may be affecting other people.",
+    "I honestly examine my own choices, reactions, and conduct and take responsibility for what is mine to own.",
+    "When I recognize that my choices, reactions, or conduct need correction, I take appropriate action to change course.",
+    "When I recognize a change I need to make in my choices, reactions, or conduct, I continue working on that change even after the initial motivation or urgency has passed.",
+    "I intentionally check the condition of my heart during ordinary seasons of life, not only when problems or difficult circumstances arise.",
+    "I regularly make time to examine the condition of my heart and consider whether anything needs my attention or response.",
+    "I continue developing how I guard and steward my heart as I encounter new seasons, responsibilities, and challenges."
+  ];
+  var SCALE = [
+    {v:1,t:"Almost Never"},{v:2,t:"Rarely"},{v:3,t:"Sometimes"},{v:4,t:"Often"},{v:5,t:"Consistently"}
+  ];
+  var HISTORY = [
+    {v:"NONE_USED", t:"I have not used any Guard Your Heart resources yet.", excl:true},
+    {v:"CORE",      t:"Guard Your Heart (the book).", excl:false},
+    {v:"WORKBOOK",  t:"Guard Your Heart Companion Reflection Workbook.", excl:false},
+    {v:"JOURNEY",   t:"Guard Your Heart Transformation Journey Participant Guide or Group Experience.", excl:false},
+    {v:"NOT_SURE",  t:"I am not sure.", excl:true}
+  ];
+  var DOMAIN_NAMES = {D1:"Heart Awareness",D2:"Influence and Access",D3:"Thoughts, Beliefs and Internal Agreement",D4:"Addressing What Needs Attention",D5:"Relationships, Trust and Boundaries",D6:"Ownership and Faithful Response",D7:"Ongoing Heart Stewardship"};
+
+  var answers = {};                 // Q01..Q21 -> int
+  var history = [];                 // selected tokens
+  var idx = 0;                      // current question index 0..20
+  var submissionId = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : ('hsc_'+Date.now()+'_'+Math.round(Math.random()*1e9));
+
+  var $ = function(id){ return document.getElementById(id); };
+  var screens = ['intro','question','history','loading','snapshot','report','error'];
+  function show(name){
+    screens.forEach(function(s){ $('screen-'+s).hidden = (s!==name); });
+    $('progress').hidden = !(name==='question' || name==='history');
+    var card = document.querySelector('.card'); if(card) card.scrollIntoView({block:'start',behavior:'auto'});
+  }
+  function focusEl(el){ if(el){ el.setAttribute('tabindex','-1'); el.focus({preventScroll:true}); } }
+  function qid(n){ return 'Q'+String(n).padStart(2,'0'); }
+
+  function setProgress(n, total, label){
+    var pct = Math.round((n/total)*100);
+    $('progressFill').style.width = pct+'%';
+    $('progressLabel').textContent = label;
+    $('progressPct').textContent = pct+'%';
+  }
+
+  function renderQuestion(){
+    var q = QUESTIONS[idx];
+    $('qText').textContent = q;
+    var chosen = answers[qid(idx+1)];
+    var html = '';
+    SCALE.forEach(function(o){
+      var id = 'q'+idx+'_'+o.v, ck = (chosen===o.v)?'checked':'';
+      html += '<div class="opt"><input type="radio" name="q'+idx+'" id="'+id+'" value="'+o.v+'" '+ck+'>'
+            + '<label for="'+id+'"><span class="dot" aria-hidden="true"></span><span class="num">'+o.v+'</span><span class="txt">'+o.t+'</span></label></div>';
+    });
+    $('qScale').innerHTML = html;
+    $('qErr').textContent = '';
+    $('btnNext').disabled = !chosen;
+    $('btnBack').style.visibility = idx===0 ? 'hidden' : 'visible';
+    setProgress(idx+1, QUESTIONS.length, 'Question '+(idx+1)+' of '+QUESTIONS.length);
+    $('qScale').querySelectorAll('input').forEach(function(inp){
+      inp.addEventListener('change', function(){ answers[qid(idx+1)] = parseInt(inp.value,10); $('btnNext').disabled = false; $('qErr').textContent=''; });
+    });
+    show('question'); focusEl($('qText'));
+  }
+
+  function renderHistory(){
+    var html='';
+    HISTORY.forEach(function(o,i){
+      var id='h_'+i, ck = history.indexOf(o.v)>-1?'checked':'';
+      html += '<div class="opt check"><input type="checkbox" id="'+id+'" value="'+o.v+'" data-excl="'+o.excl+'" '+ck+'>'
+            + '<label for="'+id+'"><span class="dot" aria-hidden="true"></span><span class="txt">'+o.t+'</span></label></div>';
+    });
+    $('histScale').innerHTML = html;
+    setProgress(QUESTIONS.length, QUESTIONS.length, 'Almost done');
+    $('histScale').querySelectorAll('input').forEach(function(inp){
+      inp.addEventListener('change', function(){ onHistoryChange(inp); });
+    });
+    syncHistoryBtn();
+    show('history'); focusEl($('histText'));
+  }
+  function onHistoryChange(inp){
+    var boxes = $('histScale').querySelectorAll('input');
+    if(inp.checked && inp.getAttribute('data-excl')==='true'){
+      boxes.forEach(function(b){ if(b!==inp){ b.checked=false; } });   // exclusive option clears others
+    } else if(inp.checked){
+      boxes.forEach(function(b){ if(b.getAttribute('data-excl')==='true'){ b.checked=false; } }); // a specific clears the exclusives
+    }
+    history = Array.prototype.slice.call(boxes).filter(function(b){return b.checked;}).map(function(b){return b.value;});
+    $('histErr').textContent='';
+    syncHistoryBtn();
+  }
+  function syncHistoryBtn(){ $('btnHistNext').disabled = history.length===0; }
+
+  // ---- navigation ----
+  $('btnBegin').addEventListener('click', function(){ idx=0; renderQuestion(); });
+  $('btnBack').addEventListener('click', function(){ if(idx>0){ idx--; renderQuestion(); } });
+  $('qForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    if(!answers[qid(idx+1)]){ $('qErr').textContent='Please choose an answer to continue.'; return; }
+    if(idx < QUESTIONS.length-1){ idx++; renderQuestion(); } else { renderHistory(); }
+  });
+  $('btnHistBack').addEventListener('click', function(){ idx=QUESTIONS.length-1; renderQuestion(); });
+  $('btnHistNext').addEventListener('click', function(){ if(history.length===0){ $('histErr').textContent='Please choose at least one option.'; return; } submitAssessment(); });
+  $('btnRestart').addEventListener('click', function(){ location.reload(); });
+
+  function utm(k){ try { return new URLSearchParams(location.search).get(k) || null; } catch(e){ return null; } }
+
+  function submitAssessment(){
+    show('loading');
+    fetch(SCORE_URL, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        submission_id: submissionId, answers: answers, productHistory: history,
+        source: 'checkup', utm_source: utm('utm_source'), utm_medium: utm('utm_medium'), utm_campaign: utm('utm_campaign')
+      })
+    }).then(function(r){ return r.json().then(function(j){ return {ok:r.ok, j:j}; }); })
+      .then(function(res){
+        if(!res.ok || res.j.status!=='COMPLETE'){ return showError(res.j && res.j.reason); }
+        renderSnapshot(res.j);
+      }).catch(function(){ showError('network'); });
+  }
+
+  function renderSnapshot(d){
+    $('snapStageName').textContent = 'Stage '+d.final_stage;   // replaced by approved stage name when copy arrives
+    $('snapStageText').textContent = '';                        // approved 40-70 word interpretation goes here
+    var pr = (d.priority_domains||[]).map(function(k){ return '<span class="pill">'+DOMAIN_NAMES[k]+'</span>'; }).join('');
+    var st = (d.strength_domains||[]).map(function(k){ return '<span class="pill">'+DOMAIN_NAMES[k]+'</span>'; }).join('');
+    $('snapPriority').innerHTML = pr;
+    $('snapStrength').innerHTML = st;
+    if(d.priority_type && d.priority_type!=='ONE'){ $('snapPriorityLabel').textContent = 'Your priority areas to tend right now:'; }
+    show('snapshot'); focusEl($('snapStageName'));
+  }
+
+  function showError(reason){
+    if(reason && reason.indexOf('MISSING')===0){ $('errText').textContent = 'It looks like a question was left blank. Every question is needed for an accurate result. Please start over and answer each one.'; }
+    else if(reason && reason.indexOf('INVALID')===0){ $('errText').textContent = 'One of the answers was not valid. Please start over and choose a 1 to 5 response for each question.'; }
+    else { $('errText').textContent = 'We hit a snag completing your checkup. Please try again in a moment.'; }
+    show('error'); focusEl($('screen-error').querySelector('h1'));
+  }
+
+  // ---- email capture -> Supabase + (server) n8n/GHL ----
+  $('emailForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var email = $('email').value.trim();
+    if(!email){ $('emailErr').textContent='Please enter your email.'; return; }
+    if(!$('consent').checked){ $('emailErr').textContent='Please check the box so we can send your report.'; return; }
+    $('btnGetReport').disabled = true; $('btnGetReport').textContent='Sending...';
+    fetch(EMAIL_URL, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ submission_id: submissionId, email: email, consent: true })
+    }).then(function(r){ return r.json().catch(function(){return {};}); })
+      .then(function(){ $('reportEmail').textContent = email; show('report'); focusEl($('screen-report').querySelector('h1')); })
+      .catch(function(){ $('reportEmail').textContent = email; show('report'); })   // still confirm; capture is retried server-side
+  });
+
+})();
+</script>
+</body>
+</html>
