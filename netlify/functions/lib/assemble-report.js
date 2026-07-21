@@ -57,6 +57,17 @@ function assembleReport(result, content) {
   const priorityTieLang = priorityType === 'TWO_TIE' ? (tie.priority_two || '') : (priorityType === 'MULTI_TIE' ? (tie.priority_multi || '') : '');
   const strengthTieLang = strengthType === 'TWO_TIE' ? (tie.strength_two || '') : (strengthType === 'MULTI_TIE' ? (tie.strength_multi || '') : '');
 
+  // "At a glance" overview shown at the very top of the report. Overview ONLY —
+  // it uses her approved stage snapshot verbatim and points the reader down to the
+  // full sections for the detail (per Lanita: "summary just overview, tell them to
+  // read for details"). No interpretive copy is authored here.
+  const summary = {
+    stage_name: S.name || '',
+    overview: S.snapshot || '',
+    priority_areas: priorityDomains.map((k) => domName(dom, k)),
+    read_more: 'This is just the overview. Read your full report below for what it means and your recommended next steps.',
+  };
+
   const sections = [
     { n: 1, title: 'Your Heart Stewardship Stage', body: S.name || '' },
     { n: 2, title: 'What This Stage May Suggest', body: S.may_suggest || '' },
@@ -90,6 +101,7 @@ function assembleReport(result, content) {
     priority_type: priorityType,
     strength_type: strengthType,
     content_version: content.content_version || null,
+    summary,
     sections,
     ready: missing.length === 0,   // true only when every controlled slot is filled
     missing,

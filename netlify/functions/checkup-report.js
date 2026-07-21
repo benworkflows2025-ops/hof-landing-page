@@ -45,6 +45,7 @@ exports.handler = async (event) => {
     strength_type: report.strength_type,
     priority_areas: areasOf(5),
     strength_areas: areasOf(4),
+    summary: report.ready ? report.summary : null,     // "at a glance" overview, top of report
     sections: report.ready ? report.sections : null,   // full prose only when approved copy is in
   });
 };
