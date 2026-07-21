@@ -38,13 +38,21 @@ function assembleReport(result, content) {
   const tie = content.tie || {};
   const prod = content.products || {};
 
+  // When exactly one area is lowest we use that area's own approved scripture and
+  // resource wording. On a tie we fall back to the universal versions (IC-02).
+  const singlePriority = priorityDomains.length === 1 ? priorityDomains[0] : null;
+  const pdom = (singlePriority && dom[singlePriority]) || {};
+  const scriptureText = pdom.scripture || content.scripture || '';
+  // her per-area resource line for the routed product, else the global product blurb
+  const resourceText = (pdom.resources && pdom.resources[recommendation]) || prod[recommendation] || '';
+
   // Three Recommended Next Steps
   //  Step 1: unique lowest -> that domain's next-step module; 2+ tied -> IC-02 universal tie step.
-  const step1 = priorityDomains.length === 1
-    ? (dom[priorityDomains[0]] && dom[priorityDomains[0]].priority_next_step) || ''
+  const step1 = singlePriority
+    ? (dom[singlePriority] && dom[singlePriority].priority_next_step) || ''
     : (tie.universal_next_faithful_step || '');
   const step2 = content.universal_next_step || '';
-  const step3 = prod[recommendation] || '';
+  const step3 = resourceText;
 
   const priorityTieLang = priorityType === 'TWO_TIE' ? (tie.priority_two || '') : (priorityType === 'MULTI_TIE' ? (tie.priority_multi || '') : '');
   const strengthTieLang = strengthType === 'TWO_TIE' ? (tie.strength_two || '') : (strengthType === 'MULTI_TIE' ? (tie.strength_multi || '') : '');
@@ -57,11 +65,12 @@ function assembleReport(result, content) {
     { n: 4, title: 'Your Relative Stewardship Strength(s)', tieLanguage: strengthTieLang,
       items: strengthDomains.map((k) => ({ domain: domName(dom, k), text: (dom[k] && dom[k].strength_line) || '' })) },
     { n: 5, title: 'Your Priority Attention Area(s)', tieLanguage: priorityTieLang,
-      items: priorityDomains.map((k) => ({ domain: domName(dom, k), text: (dom[k] && dom[k].priority_next_step) || '' })) },
+      items: priorityDomains.map((k) => ({ domain: domName(dom, k),
+        text: [(dom[k] || {}).profile, (dom[k] || {}).why_it_matters].filter(Boolean).join('\n\n') })) },
     { n: 6, title: 'What Your Results Do and Do Not Mean', body: content.meaning || '' },
     { n: 7, title: 'Three Recommended Next Steps', steps: [step1, step2, step3] },
-    { n: 8, title: 'Scripture-Grounded Reflection', body: content.scripture || '' },
-    { n: 9, title: 'Your Recommended HOF Starting Point', body: prod[recommendation] || '' },
+    { n: 8, title: 'Scripture-Grounded Reflection', body: scriptureText },
+    { n: 9, title: 'Your Recommended HOF Starting Point', body: resourceText },
     { n: 10, title: 'What May Come Next', body: content.what_comes_next || '' },
     { n: 11, title: 'Educational, Spiritual and Safety Disclaimer', body: content.disclaimer || '' },
   ];
