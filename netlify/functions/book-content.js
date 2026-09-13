@@ -23,6 +23,7 @@ const BOOKS = {
   'guard-your-heart': { file: 'guard-your-heart.json', title: 'Guard Your Heart', products: ['guard-your-heart-book', 'guard-your-heart-bundle'] },
   'companion-workbook': { file: 'companion-workbook.json', title: 'Companion Reflection Workbook', products: ['companion-workbook', 'guard-your-heart-bundle'] },
   'participant-guide': { file: 'participant-guide.json', title: 'Guard Your Heart: Participant Guide', products: ['participant-guide'] },
+  'facilitator-guide': { file: 'facilitator-guide.json', title: 'Guard Your Heart: Facilitator Guide', products: ['facilitator-guide'] },
 };
 
 const norm = (s) => String(s || '').trim().toLowerCase();

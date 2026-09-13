@@ -62,7 +62,20 @@ function assembleReport(result, content) {
     ? slot(dom[singlePriority] && dom[singlePriority].priority_next_step) || ''
     : slot(tie.universal_next_faithful_step) || '';
   const step2 = slot(content.universal_next_step) || '';
-  const step3 = resourceText;
+
+  // Section 9 ("Your Recommended HOF Starting Point") carries the resource in full,
+  // so step 3 printing the same paragraphs again made the reader read it twice.
+  // Her universal product blurbs are written as "<short action line>\n\n<description>",
+  // so step 3 takes that action line - which is what a STEP should be - and section 9
+  // keeps the full description. Nothing is reworded; both are her approved text.
+  // Where a slot has no separate action line (the per-area CORE lines are a single
+  // sentence) we borrow the universal product's action line, and if that is not
+  // available we keep the text as-is rather than leave the step empty.
+  const leadLine = (text) => {
+    const parts = String(text || '').split(/\n\s*\n/).map((s) => s.trim()).filter(Boolean);
+    return parts.length > 1 ? parts[0] : '';
+  };
+  const step3 = leadLine(resourceText) || leadLine(slot(prod[recommendation])) || resourceText;
 
   const priorityTieLang = priorityType === 'TWO_TIE' ? slot(tie.priority_two) : (priorityType === 'MULTI_TIE' ? slot(tie.priority_multi) : '');
   const strengthTieLang = strengthType === 'TWO_TIE' ? slot(tie.strength_two) : (strengthType === 'MULTI_TIE' ? slot(tie.strength_multi) : '');
