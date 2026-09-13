@@ -15,6 +15,15 @@ const DEFAULT_DOMAIN_NAMES = {
 };
 const domName = (dom, k) => (dom[k] && dom[k].name) || DEFAULT_DOMAIN_NAMES[k] || k;
 
+// Every controlled copy slot is a short module. In the approved pack the largest
+// legitimate slot is ~1.7k characters (median 363). A value far bigger than that is
+// not copy, it is a mis-paste - a whole source document dropped into one field - and
+// it must never be printed to a respondent. Treat it as EMPTY so the existing
+// integrity check below marks the report not-ready and the page shows the graceful
+// "your written reflection is being prepared" state instead of dumping the document.
+const MAX_SLOT = 3000;
+const slot = (v) => (typeof v === 'string' && v.length <= MAX_SLOT ? v : '');
+
 function pick(result, upper, lower) {
   return result[upper] !== undefined ? result[upper] : result[lower];
 }
@@ -42,20 +51,21 @@ function assembleReport(result, content) {
   // resource wording. On a tie we fall back to the universal versions (IC-02).
   const singlePriority = priorityDomains.length === 1 ? priorityDomains[0] : null;
   const pdom = (singlePriority && dom[singlePriority]) || {};
-  const scriptureText = pdom.scripture || content.scripture || '';
+  const scriptureText = slot(pdom.scripture) || slot(content.scripture) || '';
   // her per-area resource line for the routed product, else the global product blurb
-  const resourceText = (pdom.resources && pdom.resources[recommendation]) || prod[recommendation] || '';
+  const resourceText = slot(pdom.resources && pdom.resources[recommendation])
+    || slot(prod[recommendation]) || '';
 
   // Three Recommended Next Steps
   //  Step 1: unique lowest -> that domain's next-step module; 2+ tied -> IC-02 universal tie step.
   const step1 = singlePriority
-    ? (dom[singlePriority] && dom[singlePriority].priority_next_step) || ''
-    : (tie.universal_next_faithful_step || '');
-  const step2 = content.universal_next_step || '';
+    ? slot(dom[singlePriority] && dom[singlePriority].priority_next_step) || ''
+    : slot(tie.universal_next_faithful_step) || '';
+  const step2 = slot(content.universal_next_step) || '';
   const step3 = resourceText;
 
-  const priorityTieLang = priorityType === 'TWO_TIE' ? (tie.priority_two || '') : (priorityType === 'MULTI_TIE' ? (tie.priority_multi || '') : '');
-  const strengthTieLang = strengthType === 'TWO_TIE' ? (tie.strength_two || '') : (strengthType === 'MULTI_TIE' ? (tie.strength_multi || '') : '');
+  const priorityTieLang = priorityType === 'TWO_TIE' ? slot(tie.priority_two) : (priorityType === 'MULTI_TIE' ? slot(tie.priority_multi) : '');
+  const strengthTieLang = strengthType === 'TWO_TIE' ? slot(tie.strength_two) : (strengthType === 'MULTI_TIE' ? slot(tie.strength_multi) : '');
 
   // "At a glance" overview shown at the very top of the report. Overview ONLY —
   // it uses her approved stage snapshot verbatim and points the reader down to the
@@ -63,18 +73,18 @@ function assembleReport(result, content) {
   // read for details"). No interpretive copy is authored here.
   const summary = {
     stage_name: S.name || '',
-    overview: S.snapshot || '',
+    overview: slot(S.snapshot) || '',
     priority_areas: priorityDomains.map((k) => domName(dom, k)),
     read_more: 'This is just the overview. Read your full report below for what it means and your recommended next steps.',
   };
 
   const sections = [
-    { n: 1, title: 'Your Heart Stewardship Stage', body: S.name || '' },
-    { n: 2, title: 'What This Stage May Suggest', body: S.may_suggest || '' },
+    { n: 1, title: 'Your Heart Stewardship Stage', body: slot(S.name) || '' },
+    { n: 2, title: 'What This Stage May Suggest', body: slot(S.may_suggest) || '' },
     { n: 3, title: 'Your Seven-Domain Profile',
-      items: DKEYS.map((k) => ({ domain: domName(dom, k), score: domainScore(k), text: (dom[k] && dom[k].profile) || '' })) },
+      items: DKEYS.map((k) => ({ domain: domName(dom, k), score: domainScore(k), text: slot(dom[k] && dom[k].profile) || '' })) },
     { n: 4, title: 'Your Relative Stewardship Strength(s)', tieLanguage: strengthTieLang,
-      items: strengthDomains.map((k) => ({ domain: domName(dom, k), text: (dom[k] && dom[k].strength_line) || '' })) },
+      items: strengthDomains.map((k) => ({ domain: domName(dom, k), text: slot(dom[k] && dom[k].strength_line) || '' })) },
     // Section 3 already prints every domain's `profile`, so repeating it here made a
     // reader read the same paragraphs twice (~2k duplicated characters on a single
     // priority area, ~42k when every area ties). Section 5 carries `why_it_matters`
@@ -82,13 +92,13 @@ function assembleReport(result, content) {
     // the profile still appears in full in section 3.
     { n: 5, title: 'Your Priority Attention Area(s)', tieLanguage: priorityTieLang,
       items: priorityDomains.map((k) => ({ domain: domName(dom, k),
-        text: (dom[k] || {}).why_it_matters || '' })) },
-    { n: 6, title: 'What Your Results Do and Do Not Mean', body: content.meaning || '' },
+        text: slot((dom[k] || {}).why_it_matters) || '' })) },
+    { n: 6, title: 'What Your Results Do and Do Not Mean', body: slot(content.meaning) || '' },
     { n: 7, title: 'Three Recommended Next Steps', steps: [step1, step2, step3] },
     { n: 8, title: 'Scripture-Grounded Reflection', body: scriptureText },
     { n: 9, title: 'Your Recommended HOF Starting Point', body: resourceText },
-    { n: 10, title: 'What May Come Next', body: content.what_comes_next || '' },
-    { n: 11, title: 'Educational, Spiritual and Safety Disclaimer', body: content.disclaimer || '' },
+    { n: 10, title: 'What May Come Next', body: slot(content.what_comes_next) || '' },
+    { n: 11, title: 'Educational, Spiritual and Safety Disclaimer', body: slot(content.disclaimer) || '' },
   ];
 
   // Integrity: which controlled slots are still empty (must be zero before this ships to a respondent).
