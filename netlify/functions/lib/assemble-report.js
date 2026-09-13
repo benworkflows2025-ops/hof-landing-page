@@ -75,9 +75,14 @@ function assembleReport(result, content) {
       items: DKEYS.map((k) => ({ domain: domName(dom, k), score: domainScore(k), text: (dom[k] && dom[k].profile) || '' })) },
     { n: 4, title: 'Your Relative Stewardship Strength(s)', tieLanguage: strengthTieLang,
       items: strengthDomains.map((k) => ({ domain: domName(dom, k), text: (dom[k] && dom[k].strength_line) || '' })) },
+    // Section 3 already prints every domain's `profile`, so repeating it here made a
+    // reader read the same paragraphs twice (~2k duplicated characters on a single
+    // priority area, ~42k when every area ties). Section 5 carries `why_it_matters`
+    // only, which is the part unique to it. No copy is rewritten or shortened -
+    // the profile still appears in full in section 3.
     { n: 5, title: 'Your Priority Attention Area(s)', tieLanguage: priorityTieLang,
       items: priorityDomains.map((k) => ({ domain: domName(dom, k),
-        text: [(dom[k] || {}).profile, (dom[k] || {}).why_it_matters].filter(Boolean).join('\n\n') })) },
+        text: (dom[k] || {}).why_it_matters || '' })) },
     { n: 6, title: 'What Your Results Do and Do Not Mean', body: content.meaning || '' },
     { n: 7, title: 'Three Recommended Next Steps', steps: [step1, step2, step3] },
     { n: 8, title: 'Scripture-Grounded Reflection', body: scriptureText },
